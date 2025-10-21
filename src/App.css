@@ -1,0 +1,89 @@
+/* src/App.css */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+
+  /* YENİ EKLENEN ÖZELLİKLER (STICKY FOOTER İÇİN) */
+  display: flex;
+  flex-direction: column; 
+  min-height: 100vh;
+}
+
+/* YENİ EKLENEN STİL (STICKY FOOTER İÇİN) */
+.container main {
+  flex: 1; /* Ana içeriğin mevcut tüm boşluğu doldurmasını sağlar */
+}
+
+h1, h2, h3 {
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.glass-card {
+  background: rgba(0, 0, 0, 0.2); 
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1); 
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
+  padding: 2rem;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.projects-grid .glass-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  animation: popIn 0.5s ease-out forwards;
+}
+
+.projects-grid .glass-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+}
+
+.projects-grid .glass-card .project-link { /* 'a' yerine daha spesifik bir class adı kullandık */
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.projects-grid .glass-card .project-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.projects-grid .glass-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.projects-grid .glass-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.projects-grid .glass-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.projects-grid .glass-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
