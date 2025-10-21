@@ -1,21 +1,31 @@
 /* src/App.css */
 
+/* YENİ: Ana sarmalayıcı için sticky footer stilleri */
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* YENİ: Ana içerik alanının tüm boşluğu kaplamasını sağlayan kural */
+.app-wrapper main {
+  flex: 1 0 auto;
+}
+
+/* Container stilini sadeleştiriyoruz */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
-
-  /* YENİ EKLENEN ÖZELLİKLER (STICKY FOOTER İÇİN) */
-  display: flex;
-  flex-direction: column; 
-  min-height: 100vh;
 }
 
-/* YENİ EKLENEN STİL (STICKY FOOTER İÇİN) */
-.container main {
-  flex: 1; /* Ana içeriğin mevcut tüm boşluğu doldurmasını sağlar */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 15px;
+  }
 }
 
+/* Geri kalan tüm stiller aynı... */
 h1, h2, h3 {
   color: #ffffff;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
@@ -32,14 +42,8 @@ h1, h2, h3 {
 }
 
 @keyframes popIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .projects-grid {
@@ -60,7 +64,7 @@ h1, h2, h3 {
   box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
 }
 
-.projects-grid .glass-card .project-link { /* 'a' yerine daha spesifik bir class adı kullandık */
+.projects-grid .glass-card .project-link {
     display: inline-block;
     margin-top: 1rem;
     padding: 10px 20px;
@@ -75,15 +79,7 @@ h1, h2, h3 {
     background-color: rgba(255, 255, 255, 0.15);
 }
 
-.projects-grid .glass-card:nth-child(1) {
-  animation-delay: 0.1s;
-}
-.projects-grid .glass-card:nth-child(2) {
-  animation-delay: 0.2s;
-}
-.projects-grid .glass-card:nth-child(3) {
-  animation-delay: 0.3s;
-}
-.projects-grid .glass-card:nth-child(4) {
-  animation-delay: 0.4s;
-}
+.projects-grid .glass-card:nth-child(1) { animation-delay: 0.1s; }
+.projects-grid .glass-card:nth-child(2) { animation-delay: 0.2s; }
+.projects-grid .glass-card:nth-child(3) { animation-delay: 0.3s; }
+.projects-grid .glass-card:nth-child(4) { animation-delay: 0.4s; }

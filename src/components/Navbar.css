@@ -32,3 +32,18 @@
   color: #f0f0f0;
   text-shadow: 0 0 5px rgba(255,255,255,0.7);
 }
+
+/* src/components/Navbar.css dosyasının en altına ekle */
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Öğeleri alt alta sırala */
+    gap: 1.5rem; /* Aralarındaki boşluğu artır */
+  }
+
+  .navbar-links {
+    flex-direction: column; /* Linkleri de alt alta sırala */
+    gap: 1rem;
+    align-items: center; /* Ortala */
+  }
+}

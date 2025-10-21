@@ -6,33 +6,27 @@
   padding: 0;
 }
 
+/* YENİ: Bu iki kural önemli */
+html, body {
+  height: 100%;
+}
+
 body {
   font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   
-  /* YENİ: Daha koyu ve sofistike bir gradyan */
   background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
   background-attachment: fixed;
   
-  /* YAZI RENGİ: Tam beyaz (#fff) yerine gözü yormayan kırık beyaz */
   color: #e0e0e0; 
-  min-height: 100vh;
 }
 
-/* Sayfa içeriğinin aşağıdan yukarıya doğru belirmesi için animasyon */
 @keyframes fadeInFromBottom {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Bu sınıfı uyguladığımız her element, animasyonu çalıştıracak */
 .fade-in-bottom {
   animation: fadeInFromBottom 0.6s ease-out forwards;
 }

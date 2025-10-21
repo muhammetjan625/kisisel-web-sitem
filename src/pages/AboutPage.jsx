@@ -1,14 +1,13 @@
 // src/pages/AboutPage.jsx
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './AboutPage.css'; // Sayfaya özel stil dosyasını import ediyoruz
-
-// react-icons kütüphanesinden kullanacağımız ikonları import ediyoruz
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+import './AboutPage.css';
 import { FaReact, FaJsSquare, FaCss3Alt, FaNodeJs, FaGitAlt } from 'react-icons/fa';
 import { SiFirebase } from 'react-icons/si';
 
-// Yeteneklerimizi bir dizi içinde tanımlayalım. Bu sayede kolayca yönetebiliriz.
 const skills = [
   { name: 'React', icon: <FaReact color="#61DAFB" /> },
   { name: 'JavaScript', icon: <FaJsSquare color="#F7DF1E" /> },
@@ -19,31 +18,47 @@ const skills = [
 ];
 
 function AboutPage() {
+  const [aboutData, setAboutData] = useState({ bio: '', profileImageUrl: '' });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      // 'siteContent' koleksiyonundan 'aboutMe' dokümanını çekiyoruz
+      const docRef = doc(db, 'siteContent', 'aboutMe');
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setAboutData(docSnap.data());
+      } else {
+        console.log("Hakkımda bilgisi bulunamadı!");
+      }
+      setLoading(false);
+    };
+
+    fetchAboutData();
+  }, []);
+
+  if (loading) {
+    return <p>Yükleniyor...</p>;
+  }
+
   return (
     <div className="glass-card fade-in-bottom">
       <div className="about-layout">
-        
-        {/* Sütun 1: Profil Fotoğrafı */}
         <div className="profile-picture-container">
-          <img src="/images/profile.jpg" alt="Profil Fotoğrafı" className="profile-picture" />
+          <img 
+            src={aboutData.profileImageUrl || '/images/profile.jpg'} 
+            alt="Profil Fotoğrafı" 
+            className="profile-picture" 
+          />
         </div>
-
-        {/* Sütun 2: Hakkımda Metni ve CTA */}
         <div className="about-text-container">
           <h2>Hakkımda</h2>
-          <p>
-            Merhaba! Ben [Adınız Soyadınız]. Teknolojiye ve tasarıma büyük bir tutkuyla bağlı, devamlı öğrenen bir geliştiriciyim. 
-            Kullanıcı dostu arayüzler ve verimli backend çözümleri oluşturarak fikirleri hayata geçirmeyi seviyorum.
-          </p>
-          <p>
-            Bu portfolyo sitesi, React ve Firebase gibi modern web teknolojileriyle neler yapabildiğimi gösteren canlı bir projedir. 
-            Yeni zorlukların üstesinden gelmek ve kendimi sürekli geliştirmek en büyük motivasyonum.
-          </p>
+          {/* Biyografi metnini Firestore'dan gelen veriyle değiştiriyoruz */}
+          <p style={{whiteSpace: 'pre-wrap'}}>{aboutData.bio}</p>
           <Link to="/" className="cta-button">Projelerime Göz Atın</Link>
         </div>
       </div>
-
-      {/* Yetenekler Bölümü */}
       <div className="skills-section">
         <h3>Yeteneklerim</h3>
         <div className="skills-grid">

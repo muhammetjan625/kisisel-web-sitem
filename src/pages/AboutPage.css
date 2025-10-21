@@ -107,3 +107,22 @@
     text-align: left; /* Geniş ekranda metni sola hizala */
   }
 }
+
+/* src/pages/AdminPage.css dosyasının en altına ekle */
+
+@media (max-width: 768px) {
+  .admin-form-grid {
+    grid-template-columns: 1fr; /* Grid yapısını tek sütuna düşür */
+  }
+
+  /* Butonların mobil ekranda daha iyi görünmesi için */
+  .admin-form-grid button {
+    justify-self: stretch; /* Butonların genişlemesini sağla */
+    width: 100%;
+  }
+
+  .cancel-btn {
+    justify-self: stretch;
+    width: 100%;
+  }
+}
