@@ -1,16 +1,33 @@
-# React + Vite
+# Kişisel Portfolyo Sitesi
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bu proje, React ve Firebase teknolojileri kullanılarak oluşturulmuş modern, dinamik ve "glassmorphism" tasarımlı bir kişisel portfolyo web sitesidir.
 
-Currently, two official plugins are available:
+**[Canlı Demo Linki](https://...)** ⬅️ *(3. adımdan sonra burayı dolduracaksın)*
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Proje Ekran Görüntüsü](...) ⬅️ *(İstersen buraya bir ekran görüntüsü linki ekleyebilirsin)*
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Özellikler
 
-## Expanding the ESLint configuration
+- **Modern Tasarım:** Şık ve akıcı bir kullanıcı deneyimi için "Liquid Glass" (Glassmorphism) tasarımı.
+- **Dinamik İçerik:** Projeler, Firebase Firestore veritabanından çekilmektedir.
+- **Tam Donanımlı Admin Paneli:**
+    - Güvenli e-posta/şifre ile giriş.
+    - Proje ekleme, düzenleme ve silme (CRUD) işlemleri.
+    - URL yerine doğrudan bilgisayardan resim yükleme (ImgBB entegrasyonu).
+- **Sayfa Yönlendirme:** `react-router-dom` ile hızlı ve akıcı sayfa geçişleri.
+- **Animasyonlar:** CSS keyframe animasyonları ile kullanıcı dostu geçişler ve efektler.
+- **Tamamen Duyarlı (Responsive):** Mobil, tablet ve masaüstü cihazlarla uyumlu.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🚀 Kullanılan Teknolojiler
+
+- **Frontend:** React (Vite), React Router DOM
+- **Backend & Veritabanı:** Firebase (Firestore, Authentication)
+- **Resim Yükleme:** ImgBB API
+- **Stil:** Saf CSS (Flexbox, Grid)
+- **İkonlar:** React Icons
+
+---
