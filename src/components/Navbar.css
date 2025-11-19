@@ -1,123 +1,159 @@
-/* Temel Navbar Stilleri */
-.navbar {
+/* src/components/Navbar.css */
+
+/* 1. ANA KONUMLANDIRMA (YÜZEN YAPI) */
+.navbar-floating {
+  position: fixed;
+  top: 20px; /* En üstten 20px aşağıda süzülür */
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+  pointer-events: none; /* Yan boşluklara tıklamayı engellemez */
+  padding: 0 1rem;
+  transition: top 0.3s ease;
+}
+
+/* Sayfa aşağı kayınca biraz daha yukarı yapışsın (Opsiyonel) */
+.navbar-floating.scrolled {
+  top: 10px;
+}
+
+/* 2. CAM GÖRÜNÜMLÜ KAPSÜL (Footer ile aynı stil) */
+.navbar-glass {
+  pointer-events: auto; /* Kapsüle tıklanabilir */
+  background: rgba(20, 20, 20, 0.6); /* Koyu şeffaf zemin */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  
+  width: 100%;
+  max-width: 1100px; /* İçerikle aynı hizada bitsin */
+  border-radius: 50px; /* Hap şekli */
+  padding: 0.8rem 2rem;
+  
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  /* 'glass-card' stiliniz */
-  background-color: rgba(255, 255, 255, 0.7); 
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  
-  /* Bu önemli: Açılır menü buna göre konumlanacak */
-  position: relative; 
-  z-index: 100;
+  position: relative; /* Dropdown'ı buna göre konumlandıracağız */
 }
 
+/* 3. MARKA / LOGO */
 .navbar-brand a {
-  font-weight: bold;
   font-size: 1.4rem;
+  font-weight: 800;
+  color: #fff;
   text-decoration: none;
-  color: #f0dd36;
+  letter-spacing: -1px;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-/* === AÇILIR MENÜ (LİNKLER) - YENİ STİL === */
-.navbar-links {
-  /* Temel yapı */
-  list-style: none;
-  margin: 0;
-  padding: 0.5rem 0; /* Üstte ve altta hafif boşluk */
-  display: flex; /* İçerik için (JS'de 'active' ile değiştirmiyoruz) */
-  flex-direction: column;
-  
-  /* Konumlandırma: Sağda ve küçük */
-  position: absolute;
-  top: 100%; /* Navbar'ın hemen altında */
-  right: 1rem; /* Sağdan 1rem boşluk bırakarak hizalan */
-  width: 300px; /* Sabit genişlik - "küçük" olması için */
-  max-width: 80vw; /* Ekranın %80'inden fazla yer kaplama */
-
-  /* Cam Efekti */
-  background-color: rgba(255, 255, 255, 0.85); 
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Daha belirgin gölge */
-  border-radius: 12px; /* Tüm köşeleri yuvarlat */
-  overflow: hidden; /* Link hover efektinin taşmasını engelle */
-
-  /* === Animasyon (Gizli Hali) === */
-  opacity: 0;
-  /* Hafifçe yukarıda ve sağda başla */
-  transform: translateY(-10px) translateX(10px); 
-  visibility: hidden;
-  pointer-events: none; /* Gizliyken tıklanamaz */
-  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+.navbar-brand .highlight {
+  color: #00c6ff; /* Neon mavi nokta */
 }
 
-/* === Animasyon (Görünür Hali) === */
-.navbar-links.active {
-  opacity: 1;
-  transform: translateY(0) translateX(0); /* Normal pozisyonuna gel */
-  visibility: visible;
-  pointer-events: auto; /* Tıklanabilir */
-}
-
-/* Linkler ve Hizalama */
-.navbar-links li {
-  margin: 0;
-  text-align: left; /* Menü içinde sola hizalı */
-  width: 100%;
-}
-
-.navbar-links a {
-  display: block;
-  padding: 0.75rem 1.5rem; /* İç boşluklar (daha az dikey, fazla yatay) */
-  width: 100%;
-  text-decoration: none;
-  color: #34495e;
-  font-weight: 500;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  box-sizing: border-box; /* Padding'in genişliği etkilememesi için */
-}
-
-.navbar-links a:hover {
-  background-color: rgba(0, 123, 255, 0.1);
-  color: #007bff;
-}
-
-
-/* === ANİMASYONLU HAMBURGER BUTONU (DEĞİŞİKLİK YOK) === */
-.hamburger {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 2rem;
-  height: 2rem;
+/* 4. HAMBURGER BUTON (Animasyonlu) */
+.hamburger-btn {
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0;
-  z-index: 110; 
-  position: relative; 
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+  z-index: 1001;
 }
 
-.hamburger span {
-  width: 2rem;
-  height: 0.25rem;
-  background: #007bff; 
-  border-radius: 10px;
-  transition: all 0.3s ease-in-out;
-  transform-origin: center;
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  border-radius: 5px;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-/* 'X' Animasyonu (DEĞİŞİKLİK YOK) */
-.hamburger.active span:nth-child(1) {
-  transform: translateY(10px) rotate(45deg);
+/* Hamburger -> X Dönüşümü */
+.hamburger-btn.open .bar-1 {
+  transform: rotate(45deg) translate(5px, 6px);
+  background-color: #00c6ff;
 }
-.hamburger.active span:nth-child(2) {
+
+.hamburger-btn.open .bar-2 {
   opacity: 0;
-  transform: translateX(-15px);
+  transform: translateX(-10px);
 }
-.hamburger.active span:nth-child(3) {
-  transform: translateY(-10px) rotate(-45deg);
+
+.hamburger-btn.open .bar-3 {
+  transform: rotate(-45deg) translate(5px, -6px);
+  background-color: #00c6ff;
+}
+
+/* 5. AÇILIR MENÜ KARTI (Floating Dropdown) */
+.nav-dropdown-card {
+  position: absolute;
+  top: 120%; /* Navbar'ın hemen altı */
+  right: 0;
+  width: 220px; /* Kompakt genişlik */
+  
+  background: rgba(30, 30, 30, 0.95); /* Çok koyu, az şeffaf */
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  
+  /* Animasyon Başlangıcı */
+  opacity: 0;
+  transform: translateY(-20px) scale(0.95);
+  visibility: hidden;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Menü Açıldığında */
+.nav-dropdown-card.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Link Stilleri */
+.nav-dropdown-card li a {
+  display: block;
+  color: #d1d5db;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 10px 15px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  text-align: right; /* Yazılar sağa yaslı, daha modern */
+}
+
+.nav-dropdown-card li a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #00c6ff;
+  transform: translateX(-5px); /* Hover olunca sola hafif kayar */
+}
+
+/* MOBİL AYARLAR */
+@media (max-width: 768px) {
+  .navbar-floating {
+    padding: 0 1rem;
+  }
+  
+  .navbar-glass {
+    padding: 0.8rem 1.5rem;
+  }
+  
+  .nav-dropdown-card {
+    right: 1rem; /* Mobilde kenardan biraz boşluk */
+    width: 200px;
+  }
 }

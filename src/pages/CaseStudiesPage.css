@@ -1,198 +1,159 @@
-/* === "Pop-in" animasyonu === */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+/* === GİRİŞ ANİMASYONU === */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* === Ana Konteyner === */
+.fade-in-bottom {
+  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* === ANA KAPSAYICI === */
 .case-studies-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 2rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-  color: #1a1a2e;
-  position: relative;
-  overflow: hidden;
+  padding: 4rem 2rem;
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  /* Koyu Arka Plan (Anasayfa ile uyumlu) */
+  background-color: #0b0c10;
+  background-image: radial-gradient(circle at top right, #1f2833 0%, #0b0c10 70%);
+  color: #c5c6c7;
+  min-height: 100vh;
 }
 
-/* Arka plan efekti */
-.case-studies-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 100% 0%, rgba(67, 97, 238, 0.05) 0%, transparent 50%),
-              radial-gradient(circle at 0% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* === Sayfa Başlığı === */
+/* === BAŞLIK BÖLÜMÜ === */
 .case-studies-header {
   text-align: center;
   margin-bottom: 4rem;
+  position: relative;
 }
 
 .case-studies-header h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #2b2d42 0%, #4361ee 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 0.75rem;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-  position: relative;
-  z-index: 1;
+  color: #fff;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+  text-shadow: 0 0 20px rgba(0, 198, 255, 0.5); /* Neon Parlama */
+}
+
+.case-studies-header h1::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: #66fcf1; /* Neon Mavi Çizgi */
+  margin: 10px auto 0;
+  border-radius: 2px;
+  box-shadow: 0 0 10px #66fcf1;
 }
 
 .case-studies-header p {
-  font-size: 1.25rem;
-  color: #4a4e69;
+  font-size: 1.2rem;
+  color: #8892b0;
   max-width: 600px;
   margin: 0 auto;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
-  position: relative;
-  z-index: 1;
+  line-height: 1.6;
 }
 
-/* === Kart Izgarası (Grid) === */
+/* === IZGARA (GRID) === */
 .case-studies-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 2.5rem;
 }
 
-/* === "HAVALI" KART STİLİ === */
+/* === KART TASARIMI === */
 .case-study-card {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  background-color: #1f2833; /* Koyu Kart Rengi */
+  border: 1px solid #2c3e50;
   border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(67, 97, 238, 0.05),
-              0 12px 24px rgba(67, 97, 238, 0.08);
   overflow: hidden;
   text-decoration: none;
   color: inherit;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease-in-out, 
-              box-shadow 0.3s ease-in-out,
-              background 0.3s ease-in-out;
-  border: 1px solid rgba(67, 97, 238, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
-  z-index: 1;
 }
 
-/* === KART HOVER EFEKTİ (Glow) === */
+/* Kart Hover Efekti (Neon Çerçeve) */
 .case-study-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 8px 20px rgba(67, 97, 238, 0.08),
-              0 24px 48px rgba(67, 97, 238, 0.12),
-              0 0 40px rgba(67, 97, 238, 0.2);
-  background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+  transform: translateY(-10px);
+  border-color: #66fcf1; /* Neon çerçeve rengi */
+  box-shadow: 0 0 25px rgba(102, 252, 241, 0.2); /* Neon dış parlama */
 }
 
-/* === Resim Alanı === */
+/* === RESİM ALANI === */
 .case-study-image {
   width: 100%;
   height: 220px;
+  position: relative;
   overflow: hidden;
-  position: relative; /* Overlay'i konumlandırmak için */
+  border-bottom: 1px solid #2c3e50;
 }
 
 .case-study-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(30%);
-  transition: transform 0.5s ease-out, filter 0.4s ease-out;
+  transition: transform 0.5s ease;
+  filter: grayscale(40%); /* Hafif soluk */
 }
 
-/* Kartın üzerine gelince resim... */
+/* Resim Hover */
 .case-study-card:hover .case-study-image img {
-  transform: scale(1.05);
-  filter: grayscale(0%);
+  transform: scale(1.1);
+  filter: grayscale(0%); /* Renklenir */
 }
 
-/* === CSS HOVER OVERLAY (JS state'i olmadan) === */
+/* === OVERLAY & BUTON === */
 .case-study-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  
-  /* "Frosted Glass" (Buzlu Cam) Efekti */
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px); /* Safari için */
-  
+  background: rgba(11, 12, 16, 0.7); /* Koyu overlay */
+  backdrop-filter: blur(3px);
   display: flex;
-  justify-content: center;
   align-items: center;
-  
-  /* === GÜNCELLENDİ === */
-  opacity: 0; /* Başlangıçta görünmez yap */
-  transition: opacity 0.3s ease; /* Yumuşak geçiş */
-}
-
-/* === YENİ EKLENDİ === */
-/* Karta hover olunca, içindeki overlay'i görünür yap */
-.case-study-card:hover .case-study-overlay {
-  opacity: 1;
-}
-
-/* === Overlay Butonu === */
-.read-more-btn {
-  background: linear-gradient(135deg, #4361ee 0%, #3b28cc 100%);
-  color: #ffffff;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  position: relative;
-  overflow: hidden;
-  
-  transform: scale(0.9);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.read-more-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #3b28cc 0%, #4361ee 100%);
+  justify-content: center;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
-.read-more-btn:hover::before {
+.case-study-card:hover .case-study-overlay {
   opacity: 1;
 }
 
-/* === YENİ EKLENDİ === */
-/* Karta hover olunca, butonun büyümesini sağla (yaylanma efekti için cubic-bezier) */
-.case-study-card:hover .read-more-btn {
-  transform: scale(1);
+.read-more-btn {
+  background: transparent;
+  color: #66fcf1;
+  border: 2px solid #66fcf1;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(102, 252, 241, 0.2);
 }
 
-/* === Kart İçeriği === */
+.read-more-btn:hover {
+  background: #66fcf1;
+  color: #0b0c10;
+  box-shadow: 0 0 20px rgba(102, 252, 241, 0.6);
+}
+
+.case-study-card:hover .read-more-btn {
+  transform: translateY(0);
+}
+
+/* === KART İÇERİĞİ === */
 .case-study-content {
   padding: 1.5rem;
   display: flex;
@@ -201,52 +162,55 @@
 }
 
 .case-study-content h3 {
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  margin: 0 0 0.75rem 0;
-  color: #2c3e50;
+  color: #fff;
+  margin: 0 0 0.8rem 0;
+  transition: color 0.3s;
+}
+
+.case-study-card:hover h3 {
+  color: #66fcf1; /* Başlık hoverda neon olur */
 }
 
 .case-study-content p {
   font-size: 0.95rem;
-  color: #6c757d;
+  color: #a0a0a0;
   line-height: 1.6;
-  flex-grow: 1;
   margin-bottom: 1.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* === Etiket (Tag) Stilleri === */
+/* === ETİKETLER (TAGS) === */
 .case-study-tags {
+  margin-top: auto;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1rem;
 }
 
 .tag {
-  background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
-  color: #2b2d42;
-  padding: 0.3rem 0.8rem;
-  border-radius: 15px;
+  background-color: #0b0c10;
+  color: #66fcf1;
   font-size: 0.75rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border: 1px solid rgba(67, 97, 238, 0.1);
-  transition: all 0.3s ease;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  border: 1px solid #2c3e50;
+  transition: all 0.2s;
 }
 
-.tag:hover {
-  background: linear-gradient(135deg, #4361ee 0%, #3b28cc 100%);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(67, 97, 238, 0.15);
+.case-study-card:hover .tag {
+  border-color: #66fcf1;
+  box-shadow: 0 0 5px rgba(102, 252, 241, 0.2);
 }
 
-/* === Tarih Stili === */
-.case-study-date {
-  font-size: 0.8rem;
-  color: #adb5bd;
-  margin-top: auto; /* Tarihi kartın en altına iter */
-  padding-top: 0.5rem;
+/* === MOBİL UYUMLULUK === */
+@media (max-width: 768px) {
+  .case-studies-container { padding: 2rem 1rem; }
+  .case-studies-header h1 { font-size: 2.5rem; }
+  .case-studies-grid { grid-template-columns: 1fr; }
 }

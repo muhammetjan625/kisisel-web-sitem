@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { db } from '../firebase'; // Firebase config dosyanızın yolu
 import { collection, query, where, getDocs, limit } from 'firebase/firestore';
 import './ProjectDetailPage.css'; // Stil dosyamız
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'; // İkonlar
+import { FaGithub, FaExternalLinkAlt, FaCode } from 'react-icons/fa'; // İkonlar
 
 function ProjectDetailPage() {
   const { projectId } = useParams(); // URL'den 'projectId'yi alır
@@ -18,11 +18,10 @@ function ProjectDetailPage() {
       
       try {
         // Admin panelinde 'id' olarak kaydettiğiniz sayısal ID'ye göre sorgu yapıyoruz.
-        // Gelen projectId'yi Number() ile sayıya çevirmek önemli.
         const q = query(
           collection(db, "projects"), 
           where("id", "==", Number(projectId)),
-          limit(1) // ID benzersiz olduğu için 1 tane getirmesi yeterli
+          limit(1)
         );
 
         const querySnapshot = await getDocs(q);
@@ -42,10 +41,7 @@ function ProjectDetailPage() {
     };
 
     fetchProject();
-  }, [projectId]); // projectId değiştikçe tekrar çalışır
-
-  // Vaka analizi verisinin olup olmadığını kontrol et
-  const hasCaseStudy = project && project.caseStudy_problem && project.caseStudy_problem.trim() !== '';
+  }, [projectId]);
 
   // Yüklenme durumu
   if (loading) {
@@ -54,12 +50,12 @@ function ProjectDetailPage() {
 
   // Hata durumu
   if (error) {
-    return <div className="detail-error"><h2>{error}</h2><Link to="/">Ana Sayfaya Dön</Link></div>;
+    return <div className="detail-error"><h2>{error}</h2><Link to="/projects">Projelere Dön</Link></div>;
   }
 
-  // Proje bulunamadıysa (fetch bitti ama 'project' hala null)
+  // Proje bulunamadıysa
   if (!project) {
-    return <div className="detail-error"><h2>Proje bulunamadı.</h2><Link to="/">Ana Sayfaya Dön</Link></div>;
+    return <div className="detail-error"><h2>Proje bulunamadı.</h2><Link to="/projects">Projelere Dön</Link></div>;
   }
 
   return (
@@ -67,6 +63,7 @@ function ProjectDetailPage() {
       <header className="project-header">
         <h1>{project.title}</h1>
         <p className="project-summary">{project.description}</p>
+        
         <div className="project-links">
           {project.liveUrl && (
             <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="header-link-btn">
@@ -87,13 +84,9 @@ function ProjectDetailPage() {
 
       <div className="project-content-wrapper">
         <div className="project-main-content">
-          <h2>Proje Detayları</h2>
-          {/* Admin panelindeki 'longDescription' alanı */}
-          {/* Bu alanı HTML olarak render etmek riskli olabilir,
-              eğer admin panelinde HTML yazıyorsanız, 'dangerouslySetInnerHTML'
-              kullanmanız gerekir. Şimdilik düz metin olarak basıyoruz. */}
+          <h2>Proje Hakkında</h2>
           <div className="long-description">
-            <p>{project.longDescription}</p>
+            <p>{project.longDescription || "Bu proje için detaylı açıklama bulunmuyor."}</p>
           </div>
         </div>
 
@@ -101,42 +94,20 @@ function ProjectDetailPage() {
           <h3>Kullanılan Teknolojiler</h3>
           <div className="tech-tags">
             {project.technologies && project.technologies.map((tech, index) => (
-              <span key={index} className="tech-tag">{tech}</span>
+              <span key={index} className="tech-tag">
+                <FaCode className="tech-icon" style={{marginRight: '5px'}}/> 
+                {tech}
+              </span>
             ))}
           </div>
         </aside>
       </div>
 
-      {/* === VAKA ANALİZİ BÖLÜMÜ (KOŞULLU) === */}
-      {hasCaseStudy && (
-        <section className="case-study-section">
-          <h2>Vaka Analizi</h2>
-          
-          <div className="case-study-box">
-            <h4>Problem</h4>
-            <p>{project.caseStudy_problem}</p>
-          </div>
-          
-          <div className="case-study-box">
-            <h4>Uygulanan Çözüm</h4>
-            <p>{project.caseStudy_solution}</p>
-          </div>
-          
-          {project.caseStudy_process && (
-            <div className="case-study-box">
-              <h4>Geliştirme Süreci</h4>
-              <p>{project.caseStudy_process}</p>
-            </div>
-          )}
-
-          {project.caseStudy_results && (
-            <div className="case-study-box results">
-              <h4>Elde Edilen Sonuçlar</h4>
-              <p>{project.caseStudy_results}</p>
-            </div>
-          )}
-        </section>
-      )}
+      {/* Vaka Analizi bölümü tamamen kaldırıldı. */}
+      
+      <div style={{textAlign: 'center', marginTop: '4rem'}}>
+        <Link to="/projects" className="back-link">← Tüm Projelere Dön</Link>
+      </div>
     </div>
   );
 }

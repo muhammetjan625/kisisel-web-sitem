@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
+// Bileşenler
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+import Loading from './components/Loading'; // Yükleme ekranı
 
+// Sayfalar
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
@@ -13,48 +16,51 @@ import BlogPage from './pages/BlogPage';
 import PostDetailPage from './pages/PostDetailPage';
 import LoginPage from './pages/LoginPage';
 import AdminPage from './pages/AdminPage';
-
-// === YENİ EKLENDİ (Vaka Analizi Sayfaları) ===
 import CaseStudiesPage from './pages/CaseStudiesPage';
-// Detay sayfasını (bir sonraki adım) oluşturana kadar geçici bir bileşen:
-const CaseStudyDetailPage = () => <div style={{padding: '50px', textAlign: 'center'}}><h1>Vaka Analizi Detay Sayfası</h1><a href="/case-studies">Geri Dön</a></div>;
-// ==============================================
+import ProjectsPage from './pages/ProjectsPage'; // YENİ EKLENDİ
 
 import './App.css';
 
 function App() {
   const location = useLocation();
-  
-  // Bu mantık harika, /admin ve /login'de header/footer'ı gizler.
-  // /case-studies yolu bu listeye dahil OLMADIĞI için
-  // header ve footer'ı GÖSTERECEKTİR (ki bu istediğimiz şey).
+  const [loading, setLoading] = useState(true);
+
+  // Site ilk açıldığında Loading ekranını göster
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // 2 saniye bekleme süresi (isteğe bağlı ayarlanabilir)
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Admin ve Login sayfalarında Navbar ve Footer'ı gizle
   const showHeaderFooter = !['/admin', '/login'].includes(location.pathname);
+
+  // Yükleniyor durumundaysa Loading bileşenini göster
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="app-wrapper"> 
       {showHeaderFooter && <Navbar />}
+      
       <main>
         <div className="container">
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/hakkimda" element={<AboutPage />} />
               <Route path="/iletisim" element={<ContactPage />} />
+              
+              {/* Projeler ve Vaka Analizleri */}
+              <Route path="/projects" element={<ProjectsPage />} /> {/* YENİ ROTA */}
+              <Route path="/case-studies" element={<CaseStudiesPage />} />
               <Route path="/project/:projectId" element={<ProjectDetailPage />} />
               
-              {/* Blog Sayfası Rotaları */}
+              {/* Blog Rotaları */}
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<PostDetailPage />} />
-
-              {/* === YENİ EKLENDİ (Vaka Analizi Rotaları) === */}
-              <Route 
-                path="/case-studies" 
-                element={<CaseStudiesPage />} 
-              />
-              <Route 
-                path="/case-studies/:slug" 
-                element={<CaseStudyDetailPage />} 
-              />
-              {/* ============================================== */}
 
               {/* Admin ve Login Rotaları */}
               <Route path="/login" element={<LoginPage />} />
@@ -69,6 +75,7 @@ function App() {
             </Routes>
         </div>
       </main>
+
       {showHeaderFooter && <Footer />}
     </div>
   );

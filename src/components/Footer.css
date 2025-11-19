@@ -1,37 +1,97 @@
 /* src/components/Footer.css */
 
-.footer {
-  margin-top: 4rem;
-  padding: 1.5rem 2rem;
-  text-align: center;
+/* Footer'ı sayfanın altına sabitleyen kapsayıcı */
+.footer-floating {
+  position: fixed;
+  bottom: 20px; /* En alttan 20px yukarıda süzülür */
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Ortalar */
+  z-index: 1000; /* Diğer öğelerin üstünde kalır */
+  pointer-events: none; /* Boşluklara tıklanabilsin diye */
+  padding: 0 1rem; /* Mobilde kenarlara yapışmasın */
 }
 
-.footer-content {
+/* Asıl Cam Görünümlü Kapsül */
+.footer-glass {
+  pointer-events: auto; /* Kapsüle tıklanabilsin */
+  background: rgba(20, 20, 20, 0.6); /* Koyu yarı saydam arka plan */
+  backdrop-filter: blur(12px); /* Arkadaki içeriği buzlar */
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1); /* İnce beyaz çerçeve */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Derin gölge */
+  
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 1rem;
-}
-
-.social-links {
-  display: flex;
   gap: 1.5rem;
+  padding: 0.6rem 1.5rem;
+  border-radius: 50px; /* Hap (Pill) şekli */
+  
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
-.social-links a {
-  color: #e0e0e0;
-  text-decoration: none;
-  transition: color 0.3s ease;
+/* Hover efektleri */
+.footer-glass:hover {
+  background: rgba(20, 20, 20, 0.8);
+  transform: translateY(-3px); /* Üzerine gelince hafifçe yükselir */
 }
 
-.social-links a:hover {
+/* Metin Stili */
+.copyright-text {
+  color: #a0a0a0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Dikey Ayırıcı Çizgi */
+.footer-divider {
+  width: 1px;
+  height: 16px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Sosyal İkonlar Grubu */
+.footer-socials {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.footer-socials a {
   color: #fff;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  opacity: 0.7;
 }
 
-/* Ekran küçüldüğünde daha iyi görünmesi için */
-@media (min-width: 768px) {
-  .footer-content {
-    flex-direction: row;
+.footer-socials a:hover {
+  opacity: 1;
+  transform: scale(1.2); /* İkon büyür */
+  color: #00c6ff; /* Neon mavi parlama */
+  filter: drop-shadow(0 0 8px rgba(0, 198, 255, 0.6));
+}
+
+/* === RESPONSIVE (MOBİL) === */
+@media (max-width: 480px) {
+  .footer-floating {
+    bottom: 15px;
+  }
+  
+  .footer-glass {
+    padding: 0.5rem 1.2rem;
+    gap: 1rem;
+    width: 100%; /* Mobilde biraz daha geniş olabilir */
+    max-width: 350px;
     justify-content: space-between;
+  }
+
+  .copyright-text {
+    font-size: 0.75rem;
   }
 }

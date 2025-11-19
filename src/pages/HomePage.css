@@ -1,0 +1,224 @@
+/* src/pages/HomePage.css */
+
+/* === GİRİŞ ANİMASYONU === */
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.fade-in {
+  animation: fadeInScale 0.6s ease-out forwards;
+}
+
+/* === ANA KAPLAYICI === */
+.home-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+}
+
+/* === HERO BÖLÜMÜ === */
+.home-hero {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+.hero-title .highlight {
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: #a0a0a0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.role-text {
+  color: #fff;
+  font-weight: 600;
+  border-bottom: 2px solid #0072ff;
+}
+
+/* === BENTO GRID DÜZENİ === */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 Sütunlu yapı */
+  grid-template-rows: repeat(2, 250px); /* 2 Satır, yükseklik sabit */
+  gap: 1.5rem;
+}
+
+/* --- KUTU GENEL STİLİ --- */
+.bento-box {
+  background: rgba(255, 255, 255, 0.03); /* Çok hafif şeffaf beyaz */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  text-decoration: none;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Yazılar altta */
+}
+
+/* Hover Efektleri */
+.bento-box:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.bento-box h3 {
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem 0;
+  z-index: 2;
+}
+
+.bento-box p {
+  color: #aaa;
+  font-size: 0.95rem;
+  margin: 0;
+  z-index: 2;
+}
+
+/* Arka Plandaki İkonlar */
+.icon-bg {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 3rem;
+  opacity: 0.1;
+  transition: all 0.3s ease;
+}
+
+.bento-box:hover .icon-bg {
+  opacity: 0.2;
+  transform: scale(1.2) rotate(-10deg);
+}
+
+/* --- KUTU BOYUTLARI VE ÖZELLİKLERİ --- */
+
+/* 1. Projeler (Büyük - Sol Taraf) */
+.box-large {
+  grid-column: span 2; /* 2 sütun kapla */
+  grid-row: span 2;    /* 2 satır kapla (Tam boy) */
+  background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(0,114,255,0.1) 100%);
+}
+
+.projects-box .box-link-text {
+  margin-top: 1rem;
+  font-weight: 700;
+  color: #00c6ff;
+  font-size: 0.9rem;
+}
+
+/* 2. Blog & Hakkımda (Orta - Sağ Taraf) */
+.box-medium {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.blog-box:hover {
+  border-color: #ff9a9e;
+}
+.blog-box .icon-bg { color: #ff9a9e; }
+
+.about-box:hover {
+  border-color: #00ff00; /* Hakkımda sayfandaki neon yeşile atıf */
+}
+.about-box .icon-bg { color: #00ff00; }
+
+
+/* 3. İletişim (Geniş - Sağ Alt) */
+.box-wide {
+  grid-column: span 2; /* 2 sütun kapla */
+  grid-row: span 1;
+  background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+}
+
+.row-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.contact-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #fff;
+  color: #000;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: transform 0.2s;
+}
+
+.contact-btn:hover {
+  transform: scale(1.05);
+  background-color: #f0f0f0;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-links a {
+  color: #fff;
+  font-size: 1.8rem;
+  opacity: 0.7;
+  transition: all 0.2s;
+}
+
+.social-links a:hover {
+  opacity: 1;
+  transform: translateY(-3px);
+  color: #00c6ff;
+}
+
+/* === MOBİL UYUMLULUK (Responsive) === */
+@media (max-width: 900px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .bento-grid {
+    grid-template-columns: 1fr; /* Mobilde tek sütun */
+    grid-template-rows: auto; /* Yükseklik otomatik */
+  }
+
+  .box-large, .box-medium, .box-wide {
+    grid-column: span 1; /* Hepsi tam genişlik */
+    grid-row: auto;
+    min-height: 200px;
+  }
+  
+  .row-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+}

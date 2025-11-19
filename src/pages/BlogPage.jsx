@@ -1,70 +1,116 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { db } from '../firebase';
-import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
-import '../App.css';
-import './BlogPage.css';
+import { db } from '../firebase'; // Firebase config
+import { collection, query, orderBy, getDocs } from 'firebase/firestore';
+import { FaCalendarAlt, FaClock } from 'react-icons/fa'; // İkonlar
+import './BlogPage.css'; // Neon CSS
 
 function BlogPage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
+      setLoading(true);
       try {
-        const postsCollectionRef = collection(db, 'posts');
-        const q = query(postsCollectionRef, where("published", "==", true), orderBy("createdAt", "desc"));
+        // Yazıları oluşturulma tarihine göre (en yeni en üstte) çek
+        const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
-        const postsList = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id, slug: doc.data().slug || doc.id }));
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Blog yazıları çekilirken hata oluştu: ", error);
-        // Eğer Firestore'un index gerektirdiği bir hata dönerse, fallback olarak tüm yazıları çekip client-side filtre uygula
-        // (küçük ölçekli bloglar için kabul edilebilir bir çözüm; büyük projelerde indeks oluşturmak en iyisidir)
-        try {
-          const postsCollectionRef = collection(db, 'posts');
-          const allSnapshot = await getDocs(postsCollectionRef);
-          const postsList = allSnapshot.docs
-            .map(doc => ({ ...doc.data(), id: doc.id, slug: doc.data().slug || doc.id }))
-            .filter(p => p.published === true)
-            .sort((a, b) => {
-              const ta = a.createdAt && a.createdAt.toDate ? a.createdAt.toDate() : new Date(0);
-              const tb = b.createdAt && b.createdAt.toDate ? b.createdAt.toDate() : new Date(0);
-              return tb - ta;
-            });
-          setPosts(postsList);
-        } catch (err2) {
-          console.error('Blog için fallback veri çekme başarısız:', err2);
-        }
+        
+        const postsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        // Sadece 'published' (yayınlanmış) olanları filtrele (Admin panelinde bu özellik vardı)
+        const publishedPosts = postsData.filter(post => post.published === true);
+        
+        setPosts(publishedPosts);
+      } catch (err) {
+        console.error("Blog verisi çekilemedi:", err);
+        setError("Yazılar yüklenirken bir hata oluştu.");
       } finally {
         setLoading(false);
       }
     };
+
     fetchPosts();
   }, []);
 
-  if (loading) { return <div className="loading-message">Yazılar Yükleniyor...</div>; }
+  // Tarih formatlayıcı fonksiyon
+  const formatDate = (timestamp) => {
+    if (!timestamp) return '';
+    const date = timestamp.toDate();
+    return new Intl.DateTimeFormat('tr-TR', { 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+    }).format(date);
+  };
+
+  // Okuma süresi tahmini (Basitçe: Kelime sayısı / 200)
+  const calculateReadTime = (content) => {
+    if (!content) return 1;
+    const words = content.split(/\s+/).length;
+    const minutes = Math.ceil(words / 200);
+    return minutes;
+  };
+
+  if (loading) return <div className="blog-container"><h2 className="loading-text">Yükleniyor...</h2></div>;
+  if (error) return <div className="blog-container"><h2 className="error-text">{error}</h2></div>;
 
   return (
-    <section className="fade-in-bottom">
-      <h2>Blog</h2>
-      <div className="projects-grid" style={{marginTop: '2rem'}}>
-        {posts.length === 0 ? <p>Henüz yayınlanmış bir yazı yok.</p> :
+    <div className="blog-container fade-in-bottom">
+      <header className="blog-header">
+        <h1>Blog & Yazılar</h1>
+        <p>Teknoloji, yazılım ve deneyimlerim üzerine notlar.</p>
+      </header>
+
+      <div className="blog-grid">
+        {posts.length > 0 ? (
           posts.map((post) => (
-            <Link key={post.id} to={`/blog/${post.slug}`} className="blog-card-link">
-              <div className="glass-card blog-card">
-                <img src={post.imageUrl || 'https://placehold.co/400x200/0f0c29/e0e0e0?text=Görsel+Yok'} alt={post.title} className="blog-card-image" />
-                <div className="blog-card-content">
-                  <h3>{post.title}</h3>
-                  <p>{post.excerpt}</p>
-                  <span className="read-more">Devamını Oku →</span>
+            // Link rotası: /blog/slug-adresi (yoksa id)
+            <Link to={`/blog/${post.slug || post.id}`} key={post.id} className="blog-card">
+              
+              <div className="blog-image-wrapper">
+                <img 
+                  src={post.imageUrl || 'https://via.placeholder.com/600x400?text=Blog+Post'} 
+                  alt={post.title} 
+                  loading="lazy"
+                />
+                <div className="blog-overlay">
+                  <span className="read-article-btn">Okumaya Başla</span>
+                </div>
+              </div>
+
+              <div className="blog-content">
+                <div className="blog-meta">
+                  <span className="meta-item">
+                    <FaCalendarAlt className="meta-icon"/> {formatDate(post.createdAt)}
+                  </span>
+                  <span className="meta-item">
+                    <FaClock className="meta-icon"/> {calculateReadTime(post.content)} dk okuma
+                  </span>
+                </div>
+
+                <h2 className="blog-title">{post.title}</h2>
+                <p className="blog-excerpt">
+                  {post.excerpt ? post.excerpt.substring(0, 120) + '...' : 'İçerik özeti bulunmuyor.'}
+                </p>
+
+                <div className="blog-footer">
+                  <span className="read-more-link">Devamını Oku &rarr;</span>
                 </div>
               </div>
             </Link>
           ))
-        }
+        ) : (
+          <p className="no-posts">Henüz yayınlanmış bir yazı yok.</p>
+        )}
       </div>
-    </section>
+    </div>
   );
 }
+
 export default BlogPage;

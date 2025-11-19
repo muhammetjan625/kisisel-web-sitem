@@ -1,128 +1,224 @@
 /* src/pages/BlogPage.css */
 
-/* Genel section */
-.fade-in-bottom {
-  animation: fadeInUp 360ms ease both;
+/* === ANA KAPLAYICI (Koyu/Neon Tema) === */
+.blog-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  
+  /* Koyu Arka Plan */
+  background-color: #0b0c10;
+  background-image: radial-gradient(circle at top left, #1f2833 0%, #0b0c10 60%);
+  color: #c5c6c7;
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(8px);} 
-  to { opacity: 1; transform: translateY(0);} 
-}
-
-.loading-message {
+/* === HEADER === */
+.blog-header {
   text-align: center;
-  padding: 3rem 1rem;
-  color: #cfcfcf;
-  font-weight: 600;
+  margin-bottom: 4rem;
 }
 
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.25rem;
-  align-items: stretch;
+.blog-header h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+  text-shadow: 0 0 20px rgba(0, 198, 255, 0.3);
 }
 
-.blog-card-link {
-  color: inherit;
-  text-decoration: none;
-}
-
-.glass-card.blog-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 14px;
-  padding: 0;
-  background: #fff;
-  border: 1px solid rgba(15,23,42,0.04);
-  box-shadow: 0 10px 30px rgba(15,23,42,0.06);
-  transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease;
-}
-
-.blog-card:hover {
-  transform: translateY(-8px) scale(1.01);
-  box-shadow: 0 20px 40px rgba(15,23,42,0.12);
-}
-
-.blog-card-image {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
+.blog-header h1::after {
+  content: '';
   display: block;
-  border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
+  width: 80px;
+  height: 4px;
+  background: #66fcf1; /* Neon Mavi */
+  margin: 15px auto 0;
+  border-radius: 2px;
+  box-shadow: 0 0 10px #66fcf1;
 }
 
-.blog-card-content {
-  padding: 1rem 1rem 1.25rem 1rem;
+.blog-header p {
+  font-size: 1.2rem;
+  color: #8892b0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* === GRID YAPISI === */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+}
+
+/* === KART TASARIMI === */
+.blog-card {
+  background-color: #1f2833; /* Koyu Gri */
+  border: 1px solid #2c3e50;
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  color: #22313f;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  position: relative;
 }
 
-.blog-card-content h3 {
-  margin: 0;
-  font-size: 1.1rem;
-  color: #0e2433;
+/* Kart Hover Efekti */
+.blog-card:hover {
+  transform: translateY(-10px);
+  border-color: #66fcf1;
+  box-shadow: 0 0 25px rgba(102, 252, 241, 0.15); /* Neon Glow */
 }
 
-.blog-card-content p {
-  margin: 0;
-  color: #4b5963;
-  font-size: 0.95rem;
-  line-height: 1.5;
+/* === RESİM ALANI === */
+.blog-image-wrapper {
+  width: 100%;
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #2c3e50;
+}
+
+.blog-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  filter: grayscale(20%);
+}
+
+.blog-card:hover .blog-image-wrapper img {
+  transform: scale(1.1);
+  filter: grayscale(0%);
+}
+
+/* Overlay ve Buton */
+.blog-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 12, 16, 0.6);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.blog-card:hover .blog-overlay { opacity: 1; }
+
+.read-article-btn {
+  color: #66fcf1;
+  border: 2px solid #66fcf1;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.blog-card:hover .read-article-btn { transform: translateY(0); }
+
+.read-article-btn:hover {
+  background: #66fcf1;
+  color: #0b0c10;
+  box-shadow: 0 0 15px rgba(102, 252, 241, 0.6);
+}
+
+/* === İÇERİK === */
+.blog-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
 }
 
-.read-more {
-  margin-top: 0.5rem;
-  color: var(--accent, #5aa9ff);
+/* Meta Bilgileri (Tarih, Süre) */
+.blog-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: #66fcf1; /* Neon renk */
+  margin-bottom: 0.8rem;
+  opacity: 0.8;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.blog-title {
+  font-size: 1.4rem;
   font-weight: 700;
-  font-size: 0.9rem;
+  color: #fff;
+  margin: 0 0 0.8rem 0;
+  line-height: 1.3;
+  transition: color 0.3s;
 }
 
-/* Accent bar on the left using pseudo element */
-.glass-card.blog-card::before{
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 6px;
-  background: linear-gradient(180deg, rgba(90,169,255,1), rgba(123,224,166,1));
-  border-top-left-radius: 14px;
-  border-bottom-left-radius: 14px;
-}
+.blog-card:hover .blog-title { color: #66fcf1; }
 
-/* To ensure pseudo element appears, make container relative */
-.glass-card.blog-card{ position: relative; }
-
-/* Excerpt clamp for nicer cards */
-.blog-card-content p{
+.blog-excerpt {
+  font-size: 0.95rem;
+  color: #a0a0a0;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  /* modern standard (where supported) */
-  line-clamp: 3;
 }
 
-/* Small meta style if present */
-.blog-card-meta{ display:flex; gap:8px; align-items:center; font-size:0.85rem; color:#7b8794; }
-
-/* mobile: slightly smaller image */
-@media (max-width:520px){ .blog-card-image{ height:140px; } }
-
-/* Küçük ekranlarda görseller biraz daha kısa olsun */
-@media (max-width: 520px) {
-  .blog-card-image { height: 120px; }
+/* Alt Kısım */
+.blog-footer {
+  margin-top: auto;
+  border-top: 1px solid #2c3e50;
+  padding-top: 1rem;
 }
 
-/* Uyumluluk için varsayılan glass-card varsa global değilse fallback */
-.glass-card {
-  border-radius: 12px;
+.read-more-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  transition: color 0.2s;
+}
+
+.blog-card:hover .read-more-link { color: #66fcf1; }
+
+/* Yükleme/Hata Metinleri */
+.loading-text, .error-text, .no-posts {
+  text-align: center;
+  color: #66fcf1;
+  margin-top: 2rem;
+}
+
+/* Giriş Animasyonu */
+.fade-in-bottom {
+  animation: fadeInBottom 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes fadeInBottom {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .blog-container { padding: 2rem 1rem; }
+  .blog-header h1 { font-size: 2.5rem; }
+  .blog-grid { grid-template-columns: 1fr; }
 }
