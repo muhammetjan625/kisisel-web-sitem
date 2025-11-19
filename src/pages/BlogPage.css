@@ -1,0 +1,128 @@
+/* src/pages/BlogPage.css */
+
+/* Genel section */
+.fade-in-bottom {
+  animation: fadeInUp 360ms ease both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px);} 
+  to { opacity: 1; transform: translateY(0);} 
+}
+
+.loading-message {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #cfcfcf;
+  font-weight: 600;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.blog-card-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.glass-card.blog-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  padding: 0;
+  background: #fff;
+  border: 1px solid rgba(15,23,42,0.04);
+  box-shadow: 0 10px 30px rgba(15,23,42,0.06);
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(15,23,42,0.12);
+}
+
+.blog-card-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+
+.blog-card-content {
+  padding: 1rem 1rem 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #22313f;
+}
+
+.blog-card-content h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #0e2433;
+}
+
+.blog-card-content p {
+  margin: 0;
+  color: #4b5963;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.read-more {
+  margin-top: 0.5rem;
+  color: var(--accent, #5aa9ff);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Accent bar on the left using pseudo element */
+.glass-card.blog-card::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: linear-gradient(180deg, rgba(90,169,255,1), rgba(123,224,166,1));
+  border-top-left-radius: 14px;
+  border-bottom-left-radius: 14px;
+}
+
+/* To ensure pseudo element appears, make container relative */
+.glass-card.blog-card{ position: relative; }
+
+/* Excerpt clamp for nicer cards */
+.blog-card-content p{
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  /* modern standard (where supported) */
+  line-clamp: 3;
+}
+
+/* Small meta style if present */
+.blog-card-meta{ display:flex; gap:8px; align-items:center; font-size:0.85rem; color:#7b8794; }
+
+/* mobile: slightly smaller image */
+@media (max-width:520px){ .blog-card-image{ height:140px; } }
+
+/* Küçük ekranlarda görseller biraz daha kısa olsun */
+@media (max-width: 520px) {
+  .blog-card-image { height: 120px; }
+}
+
+/* Uyumluluk için varsayılan glass-card varsa global değilse fallback */
+.glass-card {
+  border-radius: 12px;
+}

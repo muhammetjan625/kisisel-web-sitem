@@ -2,14 +2,19 @@
 
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { auth } from '../firebase';
+import { useAuth } from '../context/AuthContext';
 
-// Bu bileşen, içine aldığı 'children'ı (yani Admin sayfasını)
-// sadece kullanıcı giriş yapmışsa gösterir.
+// ProtectedRoute artık doğrudan firebase.auth'a bakmıyor.
+// AuthContext'ten currentUser ve loading bilgilerini kullanıyor.
 function ProtectedRoute({ children }) {
-  const user = auth.currentUser;
+  const { currentUser, loading } = useAuth();
 
-  if (!user) {
+  // Auth durumu yükleniyorsa basit bir loading dönebiliriz.
+  if (loading) {
+    return <div style={{ padding: '2rem', textAlign: 'center' }}>Yükleniyor...</div>;
+  }
+
+  if (!currentUser) {
     // Kullanıcı giriş yapmamışsa, /login sayfasına yönlendir
     return <Navigate to="/login" />;
   }

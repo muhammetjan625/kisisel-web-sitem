@@ -1,20 +1,30 @@
 /* src/pages/ContactPage.css */
 
-.contact-form {
-  margin-top: 2rem;
+.contact-container {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
+.contact-card {
+  /* Formun kapladığı alanı daraltarak daha kompakt hale getiriyoruz */
+  max-width: 500px; 
+  width: 100%;
+}
+
+.contact-form {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  /* Alanlar arasındaki dikey boşluğu azaltıyoruz */
+  gap: 1rem; 
+}
+
+/* Artık label olmadığı için bu bölümü kaldırabiliriz veya boş bırakabiliriz */
 .form-group {
   display: flex;
   flex-direction: column;
-}
-
-.form-group label {
-  margin-bottom: 0.5rem;
-  color: #e0e0e0;
 }
 
 .form-group input,
@@ -22,10 +32,18 @@
   background-color: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  padding: 12px;
+  /* İç boşluğu hafifçe azaltıyoruz */
+  padding: 14px; 
   color: #fff;
   font-size: 1rem;
 }
+
+/* Placeholder metninin rengini ayarlıyoruz */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #a0a0a0;
+}
+
 
 .form-group input:focus,
 .form-group textarea:focus {
@@ -34,7 +52,7 @@
 }
 
 .submit-btn {
-  padding: 12px 20px;
+  padding: 14px 20px;
   background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -43,26 +61,9 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 0.5rem; /* Buton ile üstündeki alan arasına boşluk */
 }
 
 .submit-btn:hover {
   background-color: rgba(255, 255, 255, 0.2);
-}
-
-/* src/pages/ContactPage.css dosyasının en altına ekle */
-
-.back-to-home {
-  text-align: center;
-  margin-top: 1.5rem;
-}
-
-.back-to-home a {
-  color: #a0a0a0;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: color 0.3s ease;
-}
-
-.back-to-home a:hover {
-  color: #fff;
 }

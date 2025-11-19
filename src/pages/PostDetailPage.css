@@ -1,0 +1,27 @@
+/* src/pages/PostDetailPage.css */
+.post-cover-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+.post-content {
+  line-height: 1.8;
+  color: #e0e0e0;
+}
+.post-content h1, .post-content h2, .post-content h3 {
+  color: #fff;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+.post-content p {
+  margin-bottom: 1.5rem;
+}
+.post-content a {
+  color: #4A90E2;
+  text-decoration: none;
+}
+.post-content a:hover {
+  text-decoration: underline;
+}

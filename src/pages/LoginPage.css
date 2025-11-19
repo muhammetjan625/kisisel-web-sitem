@@ -1,0 +1,141 @@
+/* src/pages/LoginPage.css */
+
+/* 1. ARKA PLAN (Admin paneliyle aynı noktalı zemin) */
+.login-container {
+  background-color: #e0e7ff; /* Açık mor-mavi */
+  background-image: radial-gradient(#000 1px, transparent 0);
+  background-size: 20px 20px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-family: 'Courier New', Courier, monospace; /* Retro font */
+}
+
+/* 2. GİRİŞ KARTI */
+.login-card {
+  background-color: #fff;
+  border: 3px solid #000;
+  box-shadow: 8px 8px 0px #000; /* Sert Gölge */
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+}
+
+/* 3. BAŞLIK */
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-header h2 {
+  background-color: #ffde03; /* Sarı Vurgu */
+  color: #000;
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0px #000;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 0;
+  transform: rotate(-2deg); /* Hafif eğiklik katar */
+}
+
+/* 4. FORM ELEMANLARI */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 800;
+  font-size: 0.9rem;
+  background: #000;
+  color: #fff;
+  display: inline-block;
+  width: fit-content;
+  padding: 2px 6px;
+}
+
+.form-group input {
+  padding: 12px;
+  border: 3px solid #000;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: #fdfdfd;
+  transition: all 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  background-color: #e0e7ff;
+  box-shadow: 4px 4px 0px #000; /* Odaklanınca gölge çıkar */
+}
+
+/* 5. BUTON */
+.login-btn {
+  margin-top: 1rem;
+  padding: 14px;
+  background-color: #ff4757; /* Kırmızı */
+  color: #fff;
+  font-weight: 900;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  border: 3px solid #000;
+  box-shadow: 5px 5px 0px #000;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.login-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0px #000;
+  background-color: #ff6b81;
+}
+
+.login-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #000;
+}
+
+/* 6. HATA MESAJI */
+.error-message {
+  background-color: #ffeaa7;
+  color: #d63031;
+  border: 2px solid #000;
+  padding: 0.8rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* 7. GERİ DÖN LİNKİ */
+.back-link-container {
+  margin-top: 2rem;
+  text-align: center;
+  border-top: 2px dashed #000;
+  padding-top: 1.5rem;
+}
+
+.back-link {
+  text-decoration: none;
+  color: #000;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.back-link:hover {
+  border-bottom-color: #000;
+  color: #3b82f6;
+}

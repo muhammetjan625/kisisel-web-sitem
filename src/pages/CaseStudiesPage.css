@@ -1,0 +1,252 @@
+/* === "Pop-in" animasyonu === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* === Ana Konteyner === */
+.case-studies-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  color: #1a1a2e;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Arka plan efekti */
+.case-studies-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 100% 0%, rgba(67, 97, 238, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 0% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* === Sayfa Başlığı === */
+.case-studies-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.case-studies-header h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #2b2d42 0%, #4361ee 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.75rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.case-studies-header p {
+  font-size: 1.25rem;
+  color: #4a4e69;
+  max-width: 600px;
+  margin: 0 auto;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+  position: relative;
+  z-index: 1;
+}
+
+/* === Kart Izgarası (Grid) === */
+.case-studies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+}
+
+/* === "HAVALI" KART STİLİ === */
+.case-study-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(67, 97, 238, 0.05),
+              0 12px 24px rgba(67, 97, 238, 0.08);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out, 
+              box-shadow 0.3s ease-in-out,
+              background 0.3s ease-in-out;
+  border: 1px solid rgba(67, 97, 238, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+/* === KART HOVER EFEKTİ (Glow) === */
+.case-study-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(67, 97, 238, 0.08),
+              0 24px 48px rgba(67, 97, 238, 0.12),
+              0 0 40px rgba(67, 97, 238, 0.2);
+  background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+}
+
+/* === Resim Alanı === */
+.case-study-image {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  position: relative; /* Overlay'i konumlandırmak için */
+}
+
+.case-study-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(30%);
+  transition: transform 0.5s ease-out, filter 0.4s ease-out;
+}
+
+/* Kartın üzerine gelince resim... */
+.case-study-card:hover .case-study-image img {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+}
+
+/* === CSS HOVER OVERLAY (JS state'i olmadan) === */
+.case-study-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  /* "Frosted Glass" (Buzlu Cam) Efekti */
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px); /* Safari için */
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* === GÜNCELLENDİ === */
+  opacity: 0; /* Başlangıçta görünmez yap */
+  transition: opacity 0.3s ease; /* Yumuşak geçiş */
+}
+
+/* === YENİ EKLENDİ === */
+/* Karta hover olunca, içindeki overlay'i görünür yap */
+.case-study-card:hover .case-study-overlay {
+  opacity: 1;
+}
+
+/* === Overlay Butonu === */
+.read-more-btn {
+  background: linear-gradient(135deg, #4361ee 0%, #3b28cc 100%);
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  
+  transform: scale(0.9);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.read-more-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #3b28cc 0%, #4361ee 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.read-more-btn:hover::before {
+  opacity: 1;
+}
+
+/* === YENİ EKLENDİ === */
+/* Karta hover olunca, butonun büyümesini sağla (yaylanma efekti için cubic-bezier) */
+.case-study-card:hover .read-more-btn {
+  transform: scale(1);
+}
+
+/* === Kart İçeriği === */
+.case-study-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.case-study-content h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem 0;
+  color: #2c3e50;
+}
+
+.case-study-content p {
+  font-size: 0.95rem;
+  color: #6c757d;
+  line-height: 1.6;
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
+}
+
+/* === Etiket (Tag) Stilleri === */
+.case-study-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tag {
+  background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
+  color: #2b2d42;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(67, 97, 238, 0.1);
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  background: linear-gradient(135deg, #4361ee 0%, #3b28cc 100%);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(67, 97, 238, 0.15);
+}
+
+/* === Tarih Stili === */
+.case-study-date {
+  font-size: 0.8rem;
+  color: #adb5bd;
+  margin-top: auto; /* Tarihi kartın en altına iter */
+  padding-top: 0.5rem;
+}

@@ -1,10 +1,10 @@
 // src/pages/LoginPage.jsx
 
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Link'i import et
+import { useNavigate, Link } from 'react-router-dom';
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import './ContactPage.css';
+import './LoginPage.css'; // YENİ CSS DOSYASI
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -25,11 +25,13 @@ function LoginPage() {
   };
 
   return (
-    <div className="contact-container fade-in-bottom">
-      <div className="glass-card">
-        <h2>Admin Paneli Girişi</h2>
-        <form onSubmit={handleLogin} className="contact-form">
-          {/* ... form içeriği aynı ... */}
+    <div className="login-container">
+      <div className="login-card">
+        <div className="login-header">
+            <h2>Admin Giriş</h2>
+        </div>
+        
+        <form onSubmit={handleLogin} className="login-form">
           <div className="form-group">
             <label htmlFor="email">E-posta</label>
             <input
@@ -38,6 +40,7 @@ function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              placeholder="admin@mail.com"
             />
           </div>
           <div className="form-group">
@@ -48,17 +51,18 @@ function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              placeholder="••••••••"
             />
           </div>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          <button type="submit" className="submit-btn">Giriş Yap</button>
+          
+          {error && <div className="error-message">{error}</div>}
+          
+          <button type="submit" className="login-btn">Panele Gir</button>
         </form>
-        
-        {/* YENİ EKLENEN BÖLÜM */}
-        <div className="back-to-home">
-          <Link to="/">Ana Sayfaya Dön</Link>
+
+        <div className="back-link-container">
+          <Link to="/" className="back-link">← Siteye Dön</Link>
         </div>
-        
       </div>
     </div>
   );

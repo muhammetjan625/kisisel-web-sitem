@@ -1,9 +1,7 @@
-// src/pages/ContactPage.jsx
-
-import React, { useState } from 'react';
-import { db } from '../firebase'; // Firebase db'yi import et
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore'; // Gerekli fonksiyonları import et
-import toast from 'react-hot-toast'; // Bildirim için toast'u kullanalım
+import React, { useState } from 'react'; // Doğru import satırı
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import toast from 'react-hot-toast';
 import './ContactPage.css';
 
 function ContactPage() {
@@ -24,16 +22,15 @@ function ContactPage() {
     const toastId = toast.loading("Mesajınız gönderiliyor...");
 
     try {
-      // 'messages' adında yeni bir koleksiyona veriyi ekle
       await addDoc(collection(db, 'messages'), {
         name: formData.name,
         email: formData.email,
         message: formData.message,
-        createdAt: serverTimestamp() // Mesajın gönderilme zamanını ekle
+        createdAt: serverTimestamp()
       });
       
       toast.success('Mesajınız başarıyla alındı! Teşekkürler.', { id: toastId });
-      setFormData({ name: '', email: '', message: '' }); // Formu temizle
+      setFormData({ name: '', email: '', message: '' });
     } catch (error) {
       console.error("Mesaj gönderilirken hata:", error);
       toast.error("Bir hata oluştu, lütfen tekrar deneyin.", { id: toastId });
@@ -44,25 +41,20 @@ function ContactPage() {
 
   return (
     <div className="contact-container fade-in-bottom">
-      <div className="glass-card">
+      <div className="glass-card contact-card">
         <h2>İletişime Geçin</h2>
-        <p>Aşağıdaki formu doldurarak bana ulaşabilirsiniz.</p>
         <form onSubmit={handleSubmit} className="contact-form">
-          {/* ...form inputları aynı kalacak... */}
           <div className="form-group">
-            <label htmlFor="name">Adınız Soyadınız</label>
-            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
+            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} placeholder="Adınız Soyadınız" required />
           </div>
           <div className="form-group">
-            <label htmlFor="email">E-posta Adresiniz</label>
-            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
+            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} placeholder="E-posta Adresiniz" required />
           </div>
           <div className="form-group">
-            <label htmlFor="message">Mesajınız</label>
-            <textarea id="message" name="message" rows="5" value={formData.message} onChange={handleChange} required></textarea>
+            <textarea id="message" name="message" rows="6" value={formData.message} onChange={handleChange} placeholder="Mesajınız" required></textarea>
           </div>
           <button type="submit" className="submit-btn" disabled={isSubmitting}>
-            {isSubmitting ? "Gönderiliyor..." : "Gönder"}
+            {isSubmitting ? "Gönderiliyor..." : "Mesajı Gönder"}
           </button>
         </form>
       </div>
