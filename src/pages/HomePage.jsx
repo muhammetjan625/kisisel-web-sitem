@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
-import { FaCode, FaLayerGroup, FaUserAstronaut, FaEnvelope, FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaCode, FaLayerGroup, FaUserAstronaut, FaGithub, FaLinkedin } from 'react-icons/fa';
 
 function HomePage() {
   return (
@@ -20,13 +20,13 @@ function HomePage() {
       {/* BENTO GRID DÜZENİ */}
       <div className="bento-grid">
         
-        {/* 1. Büyük Kutu: Vaka Analizleri / Projeler */}
-        <Link to="/case-studies" className="bento-box box-large projects-box">
+        {/* 1. GÜNCELLENDİ: Büyük Kutu -> Artık 'Projeler' sayfasına gidiyor */}
+        <Link to="/projects" className="bento-box box-large projects-box">
           <div className="box-content">
             <div className="icon-bg"><FaLayerGroup /></div>
-            <h3>Vaka Analizleri</h3>
-            <p>Gerçek dünya projeleri ve çözüm süreçlerim.</p>
-            <span className="box-link-text">İncele &rarr;</span>
+            <h3>Tüm Projelerim</h3>
+            <p>Geliştirdiğim web siteleri, uygulamalar ve detaylı vaka analizleri.</p>
+            <span className="box-link-text">Hepsini Gör &rarr;</span>
           </div>
         </Link>
 
@@ -35,11 +35,11 @@ function HomePage() {
           <div className="box-content">
             <div className="icon-bg"><FaCode /></div>
             <h3>Blog & Yazılar</h3>
-            <p>Teknoloji üzerine notlarım.</p>
+            <p>Teknoloji ve kodlama üzerine notlarım.</p>
           </div>
         </Link>
 
-        {/* 3. Orta Kutu: Hakkımda (Glitch stiline atıf) */}
+        {/* 3. Orta Kutu: Hakkımda */}
         <Link to="/hakkimda" className="bento-box box-medium about-box">
           <div className="box-content">
             <div className="icon-bg"><FaUserAstronaut /></div>
@@ -57,8 +57,8 @@ function HomePage() {
               <Link to="/iletisim" className="contact-btn">Mesaj Gönder</Link>
             </div>
             <div className="social-links">
-              {/* Linkleri kendi adreslerinle değiştirmeyi unutma */}
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
+              {/* Linkleri kendi adreslerinle güncellemeyi unutma */}
+              <a href="https://github.com/muhammetjan625" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
             </div>
           </div>
