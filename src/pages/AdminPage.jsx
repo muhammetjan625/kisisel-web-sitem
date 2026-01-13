@@ -425,7 +425,27 @@ const BlogManager = () => {
 // ==============================================================================
 function AdminPage() {
     const [activeTab, setActiveTab] = useState('projects');
+    const [messageCount, setMessageCount] = useState(0);
+    const [projectCount, setProjectCount] = useState(0);
+    const [blogCount, setBlogCount] = useState(0);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchCounts = async () => {
+            try {
+                const msgSnap = await getDocs(collection(db, "messages"));
+                setMessageCount(msgSnap.size);
+                const projSnap = await getDocs(collection(db, "projects"));
+                setProjectCount(projSnap.size);
+                const blogSnap = await getDocs(collection(db, "posts"));
+                setBlogCount(blogSnap.size);
+            } catch (error) {
+                console.error("Counts fetch error:", error);
+            }
+        };
+        fetchCounts();
+    }, []);
+
     const handleLogout = async () => { await signOut(auth); navigate('/login'); };
 
     return (
@@ -443,6 +463,28 @@ function AdminPage() {
                 <button className={`tab-btn ${activeTab === 'messages' ? 'active' : ''}`} onClick={() => setActiveTab('messages')}>Gelen Mesajlar</button>
                 <button className={`tab-btn ${activeTab === 'about' ? 'active' : ''}`} onClick={() => setActiveTab('about')}>Hakkımda Sayfası</button>
                 <button className={`tab-btn ${activeTab === 'blog' ? 'active' : ''}`} onClick={() => setActiveTab('blog')}>Blog Yönetimi</button>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+                
+                {/* Mesaj Sayısı Kartı */}
+                <div className="glass-card" style={{ padding: '1.5rem', textAlign: 'center', borderLeft: '5px solid #ff4757' }}>
+                    <h4 style={{ margin: 0, fontSize: '2.5rem' }}>{messageCount}</h4>
+                    <p style={{ margin: 0, fontWeight: 'bold' }}>Gelen Mesaj</p>
+                </div>
+
+                {/* Proje Sayısı Kartı */}
+                <div className="glass-card" style={{ padding: '1.5rem', textAlign: 'center', borderLeft: '5px solid #2ed573' }}>
+                    <h4 style={{ margin: 0, fontSize: '2.5rem' }}>{projectCount}</h4>
+                    <p style={{ margin: 0, fontWeight: 'bold' }}>Yayında Proje</p>
+                </div>
+
+                {/* Blog Sayısı Kartı */}
+                <div className="glass-card" style={{ padding: '1.5rem', textAlign: 'center', borderLeft: '5px solid #ffa502' }}>
+                    <h4 style={{ margin: 0, fontSize: '2.5rem' }}>{blogCount}</h4>
+                    <p style={{ margin: 0, fontWeight: 'bold' }}>Blog Yazısı</p>
+                </div>
+
             </div>
 
             <div>

@@ -1,69 +1,174 @@
 /* src/pages/ContactPage.css */
 
-.contact-container {
+/* Animasyon */
+.fade-in-bottom {
+  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ana Yapı */
+.contact-wrapper {
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 100%;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #0b0c10;
+  background-image: radial-gradient(circle at top right, #1f2833 0%, #0b0c10 70%);
+  font-family: 'Segoe UI', sans-serif;
+  color: #c5c6c7;
 }
 
-.contact-card {
-  /* Formun kapladığı alanı daraltarak daha kompakt hale getiriyoruz */
-  max-width: 500px; 
+.contact-container {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  background-color: rgba(31, 40, 51, 0.6);
+  border: 1px solid #2c3e50;
+  border-radius: 20px;
+  overflow: hidden;
+  max-width: 1000px;
   width: 100%;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
-.contact-form {
-  margin-top: 1.5rem;
+/* Sol Taraf (Bilgiler) */
+.contact-info {
+  background: linear-gradient(135deg, rgba(31,40,51,0.9) 0%, rgba(11,12,16,0.95) 100%);
+  padding: 3rem;
   display: flex;
   flex-direction: column;
-  /* Alanlar arasındaki dikey boşluğu azaltıyoruz */
-  gap: 1rem; 
+  justify-content: center;
+  border-right: 1px solid #2c3e50;
+  position: relative;
 }
 
-/* Artık label olmadığı için bu bölümü kaldırabiliriz veya boş bırakabiliriz */
+.contact-info h2 {
+  font-size: 2.5rem;
+  color: #fff;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px rgba(102, 252, 241, 0.3);
+}
+
+.contact-info p {
+  color: #8892b0;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.icon-box {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(102, 252, 241, 0.1);
+  border: 1px solid #66fcf1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #66fcf1;
+  font-size: 1.2rem;
+  margin-right: 1rem;
+  transition: all 0.3s ease;
+}
+
+.info-item:hover .icon-box {
+  background-color: #66fcf1;
+  color: #0b0c10;
+  box-shadow: 0 0 15px #66fcf1;
+}
+
+.info-item h4 { margin: 0 0 5px 0; color: #fff; font-size: 1.1rem; }
+.info-item p { margin: 0; color: #c5c6c7; font-size: 0.95rem; }
+
+/* Sağ Taraf (Form) */
+.contact-form-wrapper {
+  padding: 3rem;
+  background-color: transparent;
+}
+
 .form-group {
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 1.5rem;
 }
 
-.form-group input,
-.form-group textarea {
-  background-color: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #66fcf1;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 14px;
+  background-color: #0b0c10;
+  border: 1px solid #2c3e50;
   border-radius: 8px;
-  /* İç boşluğu hafifçe azaltıyoruz */
-  padding: 14px; 
   color: #fff;
   font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  box-sizing: border-box; /* Taşmayı önler */
 }
 
-/* Placeholder metninin rengini ayarlıyoruz */
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: #a0a0a0;
-}
-
-
-.form-group input:focus,
-.form-group textarea:focus {
+.contact-form input:focus,
+.contact-form textarea:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: #66fcf1;
+  box-shadow: 0 0 15px rgba(102, 252, 241, 0.15);
 }
 
-.submit-btn {
-  padding: 14px 20px;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
+.send-btn {
+  background-color: transparent;
+  color: #66fcf1;
+  border: 2px solid #66fcf1;
+  padding: 12px 30px;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 700;
+  border-radius: 50px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 0.5rem; /* Buton ile üstündeki alan arasına boşluk */
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.submit-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+.send-btn:hover:not(:disabled) {
+  background-color: #66fcf1;
+  color: #0b0c10;
+  box-shadow: 0 0 20px rgba(102, 252, 241, 0.5);
+  transform: translateY(-3px);
+}
+
+.send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 768px) {
+  .contact-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .contact-info {
+    padding: 2rem;
+    border-right: none;
+    border-bottom: 1px solid #2c3e50;
+  }
+  
+  .contact-form-wrapper {
+    padding: 2rem;
+  }
 }

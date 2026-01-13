@@ -1,62 +1,116 @@
-import React, { useState } from 'react'; // Doğru import satırı
+import React, { useState } from 'react';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import toast from 'react-hot-toast';
 import './ContactPage.css';
+import { FaPaperPlane, FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+import toast, { Toaster } from 'react-hot-toast';
 
 function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({ ...prevState, [name]: value }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
-      return toast.error("Lütfen tüm alanları doldurun.");
+      return toast.error("Lütfen tüm alanları doldur.");
     }
-    setIsSubmitting(true);
-    const toastId = toast.loading("Mesajınız gönderiliyor...");
 
+    setLoading(true);
     try {
-      await addDoc(collection(db, 'messages'), {
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
+      await addDoc(collection(db, "messages"), {
+        ...formData,
         createdAt: serverTimestamp()
       });
-      
-      toast.success('Mesajınız başarıyla alındı! Teşekkürler.', { id: toastId });
-      setFormData({ name: '', email: '', message: '' });
+      toast.success("Mesajın başarıyla gönderildi! En kısa sürede döneceğim.");
+      setFormData({ name: '', email: '', message: '' }); // Formu temizle
     } catch (error) {
-      console.error("Mesaj gönderilirken hata:", error);
-      toast.error("Bir hata oluştu, lütfen tekrar deneyin.", { id: toastId });
+      console.error("Hata:", error);
+      toast.error("Mesaj gönderilemedi. Bir hata oluştu.");
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="contact-container fade-in-bottom">
-      <div className="glass-card contact-card">
-        <h2>İletişime Geçin</h2>
-        <form onSubmit={handleSubmit} className="contact-form">
-          <div className="form-group">
-            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} placeholder="Adınız Soyadınız" required />
+    <div className="contact-wrapper fade-in-bottom">
+      <Toaster position="top-center" />
+      
+      <div className="contact-container">
+        {/* Sol Taraf: İletişim Bilgileri */}
+        <div className="contact-info">
+          <h2>İletişime Geç</h2>
+          <p>Bir proje fikrin mi var veya sadece merhaba mı demek istiyorsun? Aşağıdaki formu doldur veya sosyal medyadan ulaş.</p>
+          
+          <div className="info-item">
+            <div className="icon-box"><FaEnvelope /></div>
+            <div>
+              <h4>E-posta</h4>
+              <p>sokrates.ts0gmail.com</p>
+            </div>
           </div>
-          <div className="form-group">
-            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} placeholder="E-posta Adresiniz" required />
+
+          <div className="info-item">
+            <div className="icon-box"><FaMapMarkerAlt /></div>
+            <div>
+              <h4>Konum</h4>
+              <p>Samsun, Türkiye</p>
+            </div>
           </div>
-          <div className="form-group">
-            <textarea id="message" name="message" rows="6" value={formData.message} onChange={handleChange} placeholder="Mesajınız" required></textarea>
+
+          <div className="info-item">
+            <div className="icon-box"><FaPhoneAlt /></div>
+            <div>
+              <h4>Telefon</h4>
+              <p>+90 552 832 17 97</p>
+            </div>
           </div>
-          <button type="submit" className="submit-btn" disabled={isSubmitting}>
-            {isSubmitting ? "Gönderiliyor..." : "Mesajı Gönder"}
-          </button>
-        </form>
+        </div>
+
+        {/* Sağ Taraf: Mesaj Formu */}
+        <div className="contact-form-wrapper">
+          <form onSubmit={handleSubmit} className="contact-form">
+            <div className="form-group">
+              <label>Adın Soyadın</label>
+              <input 
+                type="text" 
+                name="name" 
+                value={formData.name} 
+                onChange={handleChange} 
+                placeholder="Örn: Muhammet Can" 
+              />
+            </div>
+
+            <div className="form-group">
+              <label>E-posta Adresin</label>
+              <input 
+                type="email" 
+                name="email" 
+                value={formData.email} 
+                onChange={handleChange} 
+                placeholder="ornek@mail.com" 
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Mesajın</label>
+              <textarea 
+                name="message" 
+                rows="5" 
+                value={formData.message} 
+                onChange={handleChange} 
+                placeholder="Projen hakkında bilgi ver..." 
+              ></textarea>
+            </div>
+
+            <button type="submit" className="send-btn" disabled={loading}>
+              {loading ? 'Gönderiliyor...' : <><FaPaperPlane style={{marginRight:'8px'}} /> Gönder</>}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

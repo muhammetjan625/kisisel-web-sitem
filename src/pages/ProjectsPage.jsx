@@ -1,96 +1,144 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { db } from '../firebase';
-import { collection, query, orderBy, getDocs } from 'firebase/firestore';
-import { FaGithub, FaExternalLinkAlt, FaCode } from 'react-icons/fa';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { FaGithub, FaExternalLinkAlt, FaTimes, FaCode } from 'react-icons/fa';
 import './ProjectsPage.css';
 
 function ProjectsPage() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedProject, setSelectedProject] = useState(null); // Modal için
 
+  // Projeleri Firebase'den Çek
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const q = query(collection(db, "projects"), orderBy("id", "desc"));
-        const querySnapshot = await getDocs(q);
-        const projectsData = querySnapshot.docs.map(doc => ({
-          ...doc.data(),
-          firestoreId: doc.id
-        }));
-        setProjects(projectsData);
+        const snapshot = await getDocs(q);
+        setProjects(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
       } catch (error) {
-        console.error("Projeler çekilemedi:", error);
+        console.error("Projeler yüklenirken hata:", error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchProjects();
   }, []);
 
-  if (loading) return <div className="projects-loading"><h2>Projeler Yükleniyor...</h2></div>;
+  // Modal Aç/Kapa
+  const openModal = (project) => {
+    setSelectedProject(project);
+    document.body.style.overflow = 'hidden'; // Arka plan kaymasını engelle
+  };
+
+  const closeModal = () => {
+    setSelectedProject(null);
+    document.body.style.overflow = 'auto';
+  };
 
   return (
-    <div className="projects-container fade-in-bottom">
-      <header className="projects-header">
-        <h1>Tüm Projelerim</h1>
-        <p>Kodladığım, tasarladığım ve geliştirdiğim işlerin bir koleksiyonu.</p>
-      </header>
+    <div className="projects-wrapper fade-in-bottom">
+      <div className="projects-header">
+        <h1>Projelerim</h1>
+        <p>Fikir aşamasından yayınlanma sürecine kadar geliştirdiğim işler.</p>
+      </div>
 
-      <div className="projects-grid">
-        {projects.map((project) => (
-          <div key={project.firestoreId} className="project-card-neon">
-            
-            {/* Üst Kısım: Görsel ve Overlay */}
-            <div className="project-image-box">
-              <img 
-                src={project.imageUrl || 'https://via.placeholder.com/400x250'} 
-                alt={project.title} 
-              />
-              <div className="project-overlay">
-                {/* Detay sayfasına gitmek için buton */}
-                <Link to={`/project/${project.id}`} className="overlay-btn">
-                  Detayları Gör
-                </Link>
+      {loading ? (
+        <p style={{textAlign:'center', color:'#888'}}>Projeler yükleniyor...</p>
+      ) : (
+        <div className="projects-grid">
+          {projects.map((project) => (
+            <div key={project.id} className="project-card" onClick={() => openModal(project)}>
+              <div className="card-image">
+                <img src={project.imageUrl || 'https://placehold.co/600x400?text=Proje'} alt={project.title} />
+                <div className="card-overlay">
+                  <span>Detayları İncele</span>
+                </div>
+              </div>
+              <div className="card-content">
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
+                <div className="card-techs">
+                  {project.technologies.slice(0, 3).map((tech, index) => (
+                    <span key={index}>{tech}</span>
+                  ))}
+                  {project.technologies.length > 3 && <span>+</span>}
+                </div>
               </div>
             </div>
+          ))}
+        </div>
+      )}
 
-            {/* Alt Kısım: İçerik */}
-            <div className="project-content">
-              <div className="project-title-row">
-                <h3>{project.title}</h3>
-                <div className="project-links-mini">
-                  {project.repoUrl && (
-                    <a href={project.repoUrl} target="_blank" rel="noreferrer" title="GitHub">
-                      <FaGithub />
+      {/* --- DETAY MODALI (POPUP) --- */}
+      {selectedProject && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content fade-in-up" onClick={(e) => e.stopPropagation()}>
+            <button className="close-btn" onClick={closeModal}><FaTimes /></button>
+            
+            <div className="modal-header">
+              <img src={selectedProject.imageUrl || 'https://placehold.co/800x400'} alt={selectedProject.title} className="modal-img" />
+              <div className="modal-title-row">
+                <h2>{selectedProject.title}</h2>
+                <div className="modal-links">
+                  {selectedProject.liveUrl && (
+                    <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="link-btn live">
+                      <FaExternalLinkAlt /> Canlı Site
                     </a>
                   )}
-                  {project.liveUrl && (
-                    <a href={project.liveUrl} target="_blank" rel="noreferrer" title="Canlı Site">
-                      <FaExternalLinkAlt />
+                  {selectedProject.repoUrl && (
+                    <a href={selectedProject.repoUrl} target="_blank" rel="noreferrer" className="link-btn repo">
+                      <FaGithub /> Kodlar
                     </a>
                   )}
                 </div>
               </div>
+            </div>
 
-              <p className="project-desc">
-                {project.description ? project.description.substring(0, 100) + '...' : 'Açıklama yok.'}
-              </p>
-
-              <div className="project-tech-stack">
-                {project.technologies && Array.isArray(project.technologies) ? (
-                  project.technologies.slice(0, 3).map((tech, i) => (
-                    <span key={i} className="neon-tag"><FaCode className="tiny-icon"/> {tech}</span>
-                  ))
-                ) : (
-                  <span className="neon-tag">Tech</span>
-                )}
+            <div className="modal-body">
+              <div className="modal-section">
+                <h4><FaCode /> Teknolojiler</h4>
+                <div className="modal-tags">
+                  {selectedProject.technologies.map((t, i) => <span key={i}>{t}</span>)}
+                </div>
               </div>
+
+              <div className="modal-section">
+                <h4>Proje Hakkında</h4>
+                <p>{selectedProject.longDescription || selectedProject.description}</p>
+              </div>
+
+              {/* Vaka Analizi (Varsa Göster) */}
+              {(selectedProject.caseStudy_problem || selectedProject.caseStudy_solution) && (
+                <div className="case-study-box">
+                  <h3>Vaka Analizi (Case Study)</h3>
+                  
+                  {selectedProject.caseStudy_problem && (
+                    <div className="cs-item">
+                      <strong style={{color:'#ff4757'}}>Problem:</strong>
+                      <p>{selectedProject.caseStudy_problem}</p>
+                    </div>
+                  )}
+                  
+                  {selectedProject.caseStudy_solution && (
+                    <div className="cs-item">
+                      <strong style={{color:'#2ed573'}}>Çözüm:</strong>
+                      <p>{selectedProject.caseStudy_solution}</p>
+                    </div>
+                  )}
+                   
+                   {selectedProject.caseStudy_results && (
+                    <div className="cs-item">
+                      <strong style={{color:'#ffa502'}}>Sonuç:</strong>
+                      <p>{selectedProject.caseStudy_results}</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

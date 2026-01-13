@@ -1,234 +1,346 @@
-/* ==========================================================================
-   ADMIN STİLİ: NEO-BRUTALISM (Retro & Bold)
-   "Bambaşka" bir görünüm için sert gölgeler, kalın çizgiler ve canlı renkler.
-   ========================================================================== */
+/* src/pages/AdminPage.css */
 
-/* 1. ANA KAPSAYICI (Tüm ekranı kaplayan kağıt rengi zemin) */
+/* === GENEL SAYFA YAPISI === */
 .admin-page-wrapper {
-  background-color: #e0e7ff !important; /* Açık mor-mavi zemin */
-  background-image: radial-gradient(#000 1px, transparent 0);
-  background-size: 20px 20px; /* Noktalı desen */
   min-height: 100vh;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
   padding: 2rem;
-  box-sizing: border-box;
-  z-index: 999; /* Her şeyin üstünde */
-  font-family: 'Courier New', Courier, monospace; /* Retro kod havası */
-  color: #000 !important;
+  font-family: 'Segoe UI', sans-serif;
+  color: #c5c6c7;
+  
+  /* Arka Plan: Ana sayfa ile uyumlu koyu tema */
+  background-color: #0b0c10;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(102, 252, 241, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(69, 162, 158, 0.05) 0px, transparent 50%);
 }
 
-/* Başlıklar */
-.admin-page-wrapper h2, 
-.admin-page-wrapper h3 {
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  margin-bottom: 1.5rem;
-  color: #000 !important;
-  text-shadow: 2px 2px 0px #fff;
+/* Başlık ve Üst Kısım */
+h2 {
+  color: #fff;
+  font-size: 2.2rem;
+  margin: 0;
+  text-shadow: 0 0 10px rgba(102, 252, 241, 0.2);
 }
 
-/* Header Bölümü */
-.admin-page-wrapper h2 {
-  font-size: 2.5rem;
-  background: #ffde03; /* Sarı Vurgu */
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border: 3px solid #000;
-  box-shadow: 5px 5px 0px #000;
-}
-
-/* 2. KARTLAR (Sert Gölgeli Kutular) */
-.admin-page-wrapper .glass-card {
-  background: #fff !important;
-  border: 3px solid #000 !important;
-  box-shadow: 8px 8px 0px #000 !important; /* SERT GÖLGE */
-  border-radius: 0 !important; /* Yuvarlak köşe yok, keskin! */
-  padding: 2rem;
-  margin-bottom: 3rem;
-  backdrop-filter: none !important;
-}
-
-.admin-page-wrapper .glass-card h3 {
-  background: #000;
-  color: #fff !important;
-  display: inline-block;
-  padding: 5px 10px;
-  text-shadow: none;
-  margin-top: -3rem; /* Kutunun dışına taşır */
-  border: 2px solid #000;
-}
-
-/* 3. SEKMELER (TABS) */
-.admin-page-wrapper .admin-tabs {
+/* === NAVİGASYON SEKMELERİ (TABS) === */
+.admin-tabs {
   display: flex;
   gap: 1rem;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  overflow-x: auto; /* Mobilde taşarsa kaydır */
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab-btn {
+  background: transparent;
   border: none;
-}
-
-.admin-page-wrapper .tab-btn {
-  background: #fff !important;
-  border: 3px solid #000 !important;
-  box-shadow: 4px 4px 0px #000 !important;
-  color: #000 !important;
-  font-weight: 800;
+  color: #8892b0;
   padding: 10px 20px;
-  cursor: pointer;
-  text-transform: uppercase;
-  border-radius: 0 !important;
-  transition: all 0.1s;
-}
-
-.admin-page-wrapper .tab-btn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px #000 !important;
-}
-
-.admin-page-wrapper .tab-btn.active {
-  background: #ff4757 !important; /* Aktif sekme Kırmızı */
-  color: #fff !important;
-  transform: translate(2px, 2px); /* Basılmış gibi aşağı iner */
-  box-shadow: 2px 2px 0px #000 !important;
-}
-
-/* 4. INPUTLAR VE FORMLAR */
-.admin-page-wrapper label {
-  font-weight: 800;
-  margin-bottom: 5px;
-  display: block;
-  background: #eccc68; /* Etiket arkası turuncu */
-  display: inline-block;
-  padding: 2px 5px;
-  border: 2px solid #000;
-  font-size: 0.8rem;
-}
-
-.admin-page-wrapper input,
-.admin-page-wrapper textarea,
-.admin-page-wrapper select {
-  background: #fff !important;
-  border: 3px solid #000 !important;
-  border-radius: 0 !important;
-  padding: 12px;
-  font-family: inherit;
   font-size: 1rem;
-  color: #000 !important;
-  box-shadow: 4px 4px 0px rgba(0,0,0,0.1) !important;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.admin-page-wrapper input:focus,
-.admin-page-wrapper textarea:focus {
-  background: #fcf4a3 !important; /* Odaklanınca açık sarı */
-  outline: none;
-  box-shadow: 4px 4px 0px #000 !important;
-}
-
-/* 5. BUTONLAR (Oyun butonları gibi) */
-.admin-page-wrapper .submit-btn {
-  background-color: #2ed573 !important; /* Neon Yeşil */
-  color: #000 !important;
-  border: 3px solid #000 !important;
-  box-shadow: 5px 5px 0px #000 !important;
-  font-weight: 900;
-  text-transform: uppercase;
-  padding: 12px 24px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.1s;
-  border-radius: 0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
 }
 
-.admin-page-wrapper .submit-btn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 7px 7px 0px #000 !important;
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
 }
 
-.admin-page-wrapper .submit-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0px #000 !important;
+.tab-btn.active {
+  background: rgba(102, 252, 241, 0.1);
+  color: #66fcf1;
+  border: 1px solid rgba(102, 252, 241, 0.3);
+  box-shadow: 0 0 15px rgba(102, 252, 241, 0.1);
 }
 
-.admin-page-wrapper .cancel-btn {
-  background-color: #ff6b81 !important; /* Pembe */
-  color: #000 !important;
-  border: 3px solid #000 !important;
-  box-shadow: 5px 5px 0px #000 !important;
-  font-weight: 900;
-  padding: 10px 20px;
-  margin-right: 10px;
-  cursor: pointer;
+/* === GLASS KART TASARIMI === */
+.glass-card {
+  background: rgba(30, 35, 45, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
 }
 
-/* Tablo / Liste Görünümü */
-.admin-page-wrapper .projects-list-container {
+.glass-card h3 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  font-size: 1.5rem;
+  border-left: 4px solid #66fcf1;
+  padding-left: 15px;
+}
+
+/* === FORMLAR VE INPUTLAR === */
+.admin-form-container {
+  max-width: 100%;
+}
+
+.admin-form-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
 }
 
-.admin-page-wrapper .project-list-item {
+.form-group {
   display: flex;
-  align-items: center;
-  background: #fff !important;
-  border: 3px solid #000 !important;
-  box-shadow: 6px 6px 0px #000 !important;
-  padding: 1rem;
-  color: #000 !important;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.admin-page-wrapper .project-list-thumbnail {
-  border: 2px solid #000;
+.form-group-full {
+  grid-column: span 2;
+}
+
+label {
+  font-size: 0.9rem;
+  color: #66fcf1;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+input, textarea, select {
+  background-color: #050608;
+  border: 1px solid #2c3e50;
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #66fcf1;
+  box-shadow: 0 0 15px rgba(102, 252, 241, 0.15);
+  background-color: #0b0c10;
+}
+
+input[type="file"] {
+  padding: 10px;
+  background: rgba(255,255,255,0.05);
+  cursor: pointer;
+}
+
+/* Range Slider (Yetenekler İçin) */
+input[type="range"] {
+  padding: 0;
+  height: 6px;
+  background: #2c3e50;
+  appearance: none;
+  border-radius: 5px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: #66fcf1;
+  cursor: pointer;
+  box-shadow: 0 0 10px #66fcf1;
+}
+
+/* Helper Text */
+.helper-text {
+  font-size: 0.8rem;
+  color: #8892b0;
+  margin-top: 4px;
+}
+
+/* === BUTONLAR === */
+.submit-btn {
+  background: linear-gradient(135deg, #66fcf1, #45a29e);
+  color: #0b0c10;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  grid-column: span 2;
+  margin-top: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 20px rgba(102, 252, 241, 0.4);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #455a64;
+}
+
+.cancel-btn {
+  background: transparent;
+  border: 1px solid #ff4757;
+  color: #ff4757;
+  padding: 12px 24px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.cancel-btn:hover {
+  background: #ff4757;
+  color: #fff;
+}
+
+/* === LİSTELER (Proje, Mesaj vb.) === */
+.projects-list-container, .messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project-list-item, .message-card {
+  background: rgba(11, 12, 16, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: background 0.2s;
+}
+
+.project-list-item:hover, .message-card:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(102, 252, 241, 0.2);
+}
+
+.project-list-thumbnail {
   width: 80px;
   height: 60px;
   object-fit: cover;
-  margin-right: 1rem;
+  border-radius: 6px;
+  border: 1px solid #333;
 }
 
-.admin-page-wrapper .project-list-info p {
-  font-weight: bold;
-  font-size: 1.1rem;
-  color: #000 !important;
+.project-list-info {
+  flex: 1;
 }
 
-/* Aksiyon Butonları (Küçük) */
-.admin-page-wrapper .action-btn {
-  border: 2px solid #000 !important;
-  box-shadow: 3px 3px 0px #000 !important;
-  color: #000 !important;
-  font-weight: bold;
-  border-radius: 0 !important;
-  margin-left: 5px;
-  padding: 5px 10px;
-  text-decoration: none;
-  display: inline-flex;
+.project-list-info p {
+  margin: 0;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Aksiyon Butonları (Düzenle/Sil) */
+.action-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  margin-left: 0.5rem;
+  transition: transform 0.2s;
+}
+
+.edit-btn {
+  background: rgba(102, 252, 241, 0.15);
+  color: #66fcf1;
+}
+
+.delete-btn {
+  background: rgba(255, 71, 87, 0.15);
+  color: #ff4757;
+}
+
+.action-btn:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+/* Mesajlar Özel */
+.message-card {
+  display: block; /* Mesaj içeriği alta geçsin diye */
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-}
-
-.admin-page-wrapper .edit-btn { background: #7bed9f !important; } /* Açık Yeşil */
-.admin-page-wrapper .delete-btn { background: #ff4757 !important; color: #fff !important; } /* Kırmızı */
-
-.admin-page-wrapper .action-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px #000 !important;
-}
-
-/* Mesaj Kartları */
-.admin-page-wrapper .message-card {
-  background: #fff !important;
-  border: 3px solid #000 !important;
-  box-shadow: 6px 6px 0px #5352ed !important; /* Mavi Gölge */
-  padding: 1.5rem;
-  color: #000 !important;
-}
-
-.admin-page-wrapper .message-header {
-  border-bottom: 3px dashed #000;
+  margin-bottom: 10px;
   padding-bottom: 10px;
-  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.message-sender strong { color: #66fcf1; }
+.message-sender small { color: #8892b0; margin-left: 5px; }
+
+.message-body {
+  color: #d1d5db;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.delete-message-btn {
+  background: transparent;
+  border: none;
+  color: #ff4757;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 5px;
+  transition: all 0.2s;
+}
+
+.delete-message-btn:hover {
+  transform: scale(1.2);
+  color: #ff6b81;
+}
+
+/* === ANİMASYON === */
+.fade-in-bottom {
+  animation: fadeInBottom 0.6s ease-out forwards;
+}
+
+@keyframes fadeInBottom {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .admin-page-wrapper {
+    padding: 1rem;
+  }
+  
+  .admin-form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-group-full {
+    grid-column: span 1;
+  }
+  
+  .project-list-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .project-list-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
 }

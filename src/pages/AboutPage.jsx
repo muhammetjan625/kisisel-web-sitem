@@ -1,68 +1,87 @@
-// src/pages/AboutPage.jsx
-
 import React, { useState, useEffect } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import './AboutPage.css'; // CSS dosyamız
+import { doc, getDoc } from 'firebase/firestore';
+import { FaDownload, FaEnvelope, FaGithub, FaLinkedin } from 'react-icons/fa';
+import './AboutPage.css';
 
 function AboutPage() {
-  const [aboutData, setAboutData] = useState({ bio: '', profileImageUrl: '' });
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchAboutData = async () => {
+    const fetchData = async () => {
       try {
-        const docRef = doc(db, 'siteContent', 'aboutMe');
+        const docRef = doc(db, "siteContent", "aboutMe");
         const docSnap = await getDoc(docRef);
-
         if (docSnap.exists()) {
-          setAboutData(docSnap.data());
-        } else {
-          console.log("Hakkımda verisi henüz oluşturulmamış.");
+          setData(docSnap.data());
         }
       } catch (error) {
-        console.error("Veri çekme hatası:", error);
+        console.error("Veri çekilemedi:", error);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchAboutData();
+    fetchData();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="about-page-wrapper loading-state"> {/* Yeni wrapper sınıfı */}
-        <h3>Veriler Yükleniyor...</h3>
-      </div>
-    );
-  }
+  if (loading) return <div className="about-loading">Yükleniyor...</div>;
 
   return (
-    <div className="about-page-wrapper"> {/* Yeni ana kapsayıcı sınıfı */}
-      <div className="about-card"> {/* Yeni kart sınıfı */}
-        <h2 className="about-title glitch" data-text="HAKKIMDA">HAKKIMDA</h2> {/* Glitch efekti için */}
+    <div className="about-wrapper fade-in-bottom">
+      <div className="about-container">
         
-        <div className="about-content-wrapper">
-          {aboutData.profileImageUrl && (
-            <div className="about-image-section">
-              <img 
-                src={aboutData.profileImageUrl} 
-                alt="Profil" 
-                className="about-profile-img" 
-              />
-              {/* Resmin altında glitch efekti verecek ek elemanlar */}
-              <div className="glitch-overlay-1"></div>
-              <div className="glitch-overlay-2"></div>
-            </div>
-          )}
+        {/* Sol Taraf: Profil Kartı */}
+        <div className="profile-card">
+          <div className="profile-image-container">
+            {/* Admin panelinden foto yüklenmediyse varsayılan bir görsel gösterir */}
+            <img 
+              src={data?.profileImageUrl || 'https://placehold.co/400x400?text=Profil'} 
+              alt="Profil" 
+            />
+            <div className="profile-glow"></div>
+          </div>
+          
+          <h2 className="profile-name">Muhammetjan</h2>
+          <p className="profile-title">Frontend Geliştirici</p>
+          
+          <div className="social-row">
+            <a href="https://github.com/muhammetjan625" target="_blank" rel="noreferrer"><FaGithub /></a>
+            <a href="https://linkedin.com" target="_blank" rel="noreferrer"><FaLinkedin /></a>
+            <a href="mailto:email@example.com"><FaEnvelope /></a>
+          </div>
 
-          <div className="about-text-section">
-            <p className="glitch-text" style={{ whiteSpace: 'pre-wrap' }}>
-              {aboutData.bio || "Henüz biyografi bilgisi eklenmemiş."}
-            </p>
+          <button className="download-cv-btn">
+            <FaDownload /> CV İndir
+          </button>
+        </div>
+
+        {/* Sağ Taraf: Biyografi ve Detaylar */}
+        <div className="bio-section">
+          <div className="glass-panel">
+            <h3>Hakkımda</h3>
+            <div className="bio-text">
+              {/* Satır sonlarını (<br>) algılaması için white-space stili CSS'te ayarlandı */}
+              <p>{data?.bio || "Henüz biyografi eklenmemiş. Admin panelinden ekleyebilirsiniz."}</p>
+            </div>
+
+            <div className="stats-row">
+              <div className="stat-box">
+                <h4>2+</h4>
+                <span>Yıl Deneyim</span>
+              </div>
+              <div className="stat-box">
+                <h4>10+</h4>
+                <span>Proje</span>
+              </div>
+              <div className="stat-box">
+                <h4>%100</h4>
+                <span>Müşteri Memnuniyeti</span>
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   );

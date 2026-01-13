@@ -2,7 +2,7 @@
 
 /* 1. ARKA PLAN (Admin paneliyle aynı noktalı zemin) */
 .login-container {
-  background-color: #e0e7ff; /* Açık mor-mavi */
+  background-color: #6c7aa7; /* Açık mor-mavi */
   background-image: radial-gradient(#000 1px, transparent 0);
   background-size: 20px 20px;
   min-height: 100vh;
@@ -15,7 +15,7 @@
 
 /* 2. GİRİŞ KARTI */
 .login-card {
-  background-color: #fff;
+  background-color: #251d1d;
   border: 3px solid #000;
   box-shadow: 8px 8px 0px #000; /* Sert Gölge */
   padding: 2.5rem;
@@ -71,13 +71,13 @@
   border: 3px solid #000;
   font-size: 1rem;
   font-family: inherit;
-  background-color: #fdfdfd;
+  background-color: #533d3d;
   transition: all 0.2s;
 }
 
 .form-group input:focus {
   outline: none;
-  background-color: #e0e7ff;
+  background-color: #1e253d;
   box-shadow: 4px 4px 0px #000; /* Odaklanınca gölge çıkar */
 }
 
