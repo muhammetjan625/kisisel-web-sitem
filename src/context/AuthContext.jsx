@@ -1,31 +1,32 @@
 // src/context/AuthContext.jsx
 
-import React, { useContext, useState, useEffect, createContext } from 'react';
-import { auth } from '../firebase';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { auth } from '../firebase'; // Firebase ayar dosyan
 import { onAuthStateChanged } from 'firebase/auth';
 
 const AuthContext = createContext();
 
-// eslint-disable-next-line react-refresh/only-export-components
-export function useAuth() {
+// Bu hook'u diğer sayfalarda kullanacağız
+export const useAuth = () => {
   return useContext(AuthContext);
-}
+};
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, user => {
+    // Firebase'in oturum değişikliğini dinle
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setLoading(false);
     });
+
     return unsubscribe;
   }, []);
 
   const value = {
-    currentUser,
-    loading,
+    currentUser
   };
 
   return (
@@ -33,4 +34,4 @@ export function AuthProvider({ children }) {
       {!loading && children}
     </AuthContext.Provider>
   );
-}
+};
