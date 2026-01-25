@@ -440,3 +440,17 @@
   
   .timeline-icon { display: none; } /* Mobilde ikon kalabalık yapmasın */
 }
+
+/* src/pages/HomePage.css içine en alta ekle */
+
+.skill-percent {
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.7); /* Hafif sönük beyaz */
+  font-weight: 400;
+  margin-left: 2px; /* İsimle arasına biraz boşluk */
+}
+
+/* Hover olunca yüzde parlasın */
+.home-skill-tag:hover .skill-percent {
+  color: #fff;
+}

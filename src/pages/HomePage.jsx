@@ -68,24 +68,27 @@ function HomePage() {
         </Link>
 
         {/* 4. Yetenekler Kutusu */}
-        <div className="bento-box box-wide skills-box">
-          <div className="box-content">
-            <div className="icon-bg"><FaMicrochip /></div>
-            <h3>Yeteneklerim</h3>
-            <div className="skills-ticker">
-              {skills.length > 0 ? (
-                skills.map((skill, index) => (
-                  <div key={index} className="home-skill-tag">
-                    <span className="skill-name">{skill.name}</span>
-                    <span className="skill-dot" style={{opacity: skill.percent / 100}}></span>
-                  </div>
-                ))
-              ) : (
-                <p style={{fontSize:'0.9rem', color:'#666'}}>Yetenek verisi yükleniyor...</p>
-              )}
-            </div>
+        {/* 4. Yetenekler Kutusu */}
+<div className="bento-box box-wide skills-box">
+  <div className="box-content">
+    <div className="icon-bg"><FaMicrochip /></div>
+    <h3>Yeteneklerim</h3>
+    <div className="skills-ticker">
+      {skills.length > 0 ? (
+        skills.map((skill, index) => (
+          <div key={index} className="home-skill-tag">
+            <span className="skill-name">{skill.name}</span>
+            {/* YENİ EKLENEN KISIM: YÜZDE GÖSTERGESİ */}
+            <span className="skill-percent">%{skill.percent}</span>
+            <span className="skill-dot" style={{opacity: skill.percent / 100}}></span>
           </div>
-        </div>
+        ))
+      ) : (
+        <p style={{fontSize:'0.9rem', color:'#666'}}>Yetenek verisi yükleniyor...</p>
+      )}
+    </div>
+  </div>
+</div>
 
         {/* 5. İletişim Kutusu */}
         <div className="bento-box box-full contact-box">

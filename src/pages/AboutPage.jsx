@@ -51,9 +51,22 @@ function AboutPage() {
             <a href="mailto:email@example.com"><FaEnvelope /></a>
           </div>
 
-          <button className="download-cv-btn">
+          {/* CV İNDİRME BUTONU (GÜNCELLENDİ) */}
+          <a 
+            href={data?.cvUrl || '#'} 
+            target={data?.cvUrl ? "_blank" : "_self"}
+            rel="noopener noreferrer" 
+            className="download-cv-btn"
+            style={{ textDecoration: 'none', justifyContent: 'center' }}
+            onClick={(e) => {
+              if(!data?.cvUrl) {
+                e.preventDefault();
+                alert("CV dosyası henüz admin paneline eklenmedi.");
+              }
+            }}
+          >
             <FaDownload /> CV İndir
-          </button>
+          </a>
         </div>
 
         {/* Sağ Taraf: Biyografi ve Detaylar */}
