@@ -1,0 +1,44 @@
+/* src/components/CustomCursor.css */
+
+/* Standart imleci gizle (İsteğe bağlı - bazen kullanıcılar sevmez) */
+/* body { cursor: none; } a, button { cursor: none; } */
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #66fcf1;
+  border-radius: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* Tıklamayı engellememesi için şart */
+  z-index: 10000;
+  box-shadow: 0 0 10px #66fcf1;
+}
+
+.cursor-ring {
+  width: 30px;
+  height: 30px;
+  border: 2px solid rgba(102, 252, 241, 0.5);
+  border-radius: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+  transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+}
+
+/* Bir şeye tıklanacaksa halka büyüsün */
+.cursor-ring.hovered {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(102, 252, 241, 0.1);
+  border-color: #66fcf1;
+  backdrop-filter: blur(2px);
+}
+
+/* Mobilde imleç gizlensin (Dokunmatikte gerek yok) */
+@media (max-width: 768px) {
+  .cursor-dot, .cursor-ring {
+    display: none;
+  }
+}

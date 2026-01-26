@@ -8,8 +8,9 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Loading from './components/Loading';
 import ScrollToTop from './components/ScrollToTop';
 import BuyMeCoffee from './components/BuyMeCoffee'; 
-import ChatBot from './components/ChatBot'; // IMPORT EKLENDİ
-import ScrollProgress from './components/ScrollProgress'; // Import et
+import ChatBot from './components/ChatBot'; // Yeni eklediğimiz ChatBot
+import ScrollProgress from './components/ScrollProgress'; // Yeni eklediğimiz Scroll Bar
+import CustomCursor from './components/CustomCursor';
 
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -20,7 +21,7 @@ import PostDetailPage from './pages/PostDetailPage';
 import LoginPage from './pages/LoginPage';
 import AdminPage from './pages/AdminPage';
 import NotFoundPage from './pages/NotFoundPage'; 
-import ProjectDetailPage from './pages/ProjectDetailPage'; // 1. EKSİK: IMPORT EKLENDİ
+import ProjectDetailPage from './pages/ProjectDetailPage'; // Proje detay sayfası importu
 
 import './App.css';
 
@@ -36,7 +37,7 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Mouse Glow Efekti
+  // Mouse Glow Efekti (Neon Takipçisi)
   useEffect(() => {
     const updateMousePosition = (e) => {
       document.body.style.setProperty('--x', `${e.clientX}px`);
@@ -50,6 +51,9 @@ function App() {
 
   return (
     <div className="app-wrapper">
+      {/* Sayfa üstü neon ilerleme çubuğu */}
+      <ScrollProgress />
+      <CustomCursor /> {/* BURAYA EKLENDİ */}
       <Toaster
         position="top-right"
         toastOptions={{
@@ -61,14 +65,14 @@ function App() {
           error: { iconTheme: { primary: '#ff4757', secondary: '#fff' }, style: { border: '1px solid #ff4757' } },
         }}
       />
-      <ScrollProgress />
+      
       <ScrollToTop />
-
+      
       {!isAdminRoute && <Navbar />}
-
+      
+      {/* Widgetlar (Admin panelinde gizli) */}
       {!isAdminRoute && <BuyMeCoffee />}
       {!isAdminRoute && <ChatBot />}
-
 
       <main>
         <div className="container" style={{ minHeight: '80vh' }}>
@@ -78,7 +82,7 @@ function App() {
               <Route path="/iletisim" element={<ContactPage />} />
               
               <Route path="/projects" element={<ProjectsPage />} />
-              {/* 2. EKSİK: PROJE DETAY ROTASI EKLENDİ (Burası olmazsa açılmaz) */}
+              {/* ÖNEMLİ: Proje detay sayfası rotası */}
               <Route path="/projects/:id" element={<ProjectDetailPage />} />
 
               <Route path="/blog" element={<BlogPage />} />
@@ -87,6 +91,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
               
+              {/* Hatalı linkler için 404 */}
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </div>
