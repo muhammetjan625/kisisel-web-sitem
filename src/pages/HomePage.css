@@ -209,7 +209,18 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  transition: all 0.3s ease;
 }
+
+.skill-percent {
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.7); /* Hafif sönük beyaz */
+  font-weight: 400;
+  margin-left: 2px;
+}
+
+.home-skill-tag:hover .skill-percent { color: #fff; }
+.home-skill-tag:hover { background: rgba(102, 252, 241, 0.2); transform: scale(1.05); }
 
 .skill-dot {
   width: 6px; height: 6px;
@@ -265,23 +276,70 @@
 .social-links a:hover { color: #fff; transform: translateY(-4px) scale(1.1); filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
 
 /* ========================================= */
-/* === YENİ BÖLÜMLER (DÜZELTİLMİŞ) === */
+/* === YENİ BÖLÜMLER: HİZMETLER & REFERANSLAR === */
 /* ========================================= */
-
-/* --- TIMELINE (Zaman Çizelgesi) --- */
-.timeline-section {
-  margin-top: 6rem;
-  padding-bottom: 4rem;
-  position: relative;
-}
 
 .section-title {
   text-align: center;
   font-size: 2.5rem;
   color: #fff;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
   text-shadow: 0 0 20px rgba(102, 252, 241, 0.2);
   font-weight: 800;
+  margin-top: 5rem;
+}
+
+.section-title p {
+  font-size: 1rem;
+  color: #8892b0;
+  font-weight: 400;
+  margin-top: 0.5rem;
+}
+
+/* HİZMETLER GRID */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 0 1rem;
+  margin-bottom: 4rem;
+}
+
+/* REFERANSLAR GRID */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 0 1rem;
+  margin-bottom: 4rem;
+}
+
+/* ORTAK GLASS CARD STİLİ (Admin Paneli ile uyumlu) */
+.glass-card {
+  background: rgba(20, 24, 30, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  height: 100%; /* Kartların boyunu eşitler */
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  border-color: #66fcf1;
+  background: rgba(30, 35, 45, 0.8);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* ========================================= */
+/* === TIMELINE (Zaman Çizelgesi) === */
+/* ========================================= */
+.timeline-section {
+  margin-top: 2rem;
+  padding-bottom: 4rem;
+  position: relative;
 }
 
 .timeline {
@@ -432,25 +490,16 @@
   .action-part { width: 100%; }
   .contact-btn { width: 100%; text-align: center; }
 
+  /* Hizmetler ve Referanslar Mobilde tek sütun */
+  .services-grid, .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
   /* Timeline Mobil Düzeltme */
   .timeline::after { left: 20px; }
   .timeline-item { width: 100%; padding-left: 50px; padding-right: 10px; text-align: left; margin-bottom: 1rem; }
   .timeline-item.left, .timeline-item.right { left: 0; }
   .timeline-item::after { left: 13px; }
   
-  .timeline-icon { display: none; } /* Mobilde ikon kalabalık yapmasın */
-}
-
-/* src/pages/HomePage.css içine en alta ekle */
-
-.skill-percent {
-  font-size: 0.85em;
-  color: rgba(255, 255, 255, 0.7); /* Hafif sönük beyaz */
-  font-weight: 400;
-  margin-left: 2px; /* İsimle arasına biraz boşluk */
-}
-
-/* Hover olunca yüzde parlasın */
-.home-skill-tag:hover .skill-percent {
-  color: #fff;
+  .timeline-icon { display: none; }
 }

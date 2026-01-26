@@ -58,11 +58,11 @@ function ContactPage() {
           
           <div className="info-item">
             <FaEnvelope className="icon" />
-            <span>email@example.com</span>
+            <span>sokrates.ts0@gmail.com</span>
           </div>
           <div className="info-item">
             <FaPhone className="icon" />
-            <span>+90 555 000 00 00</span>
+            <span>YAKINDA</span>
           </div>
           <div className="info-item">
             <FaMapMarkerAlt className="icon" />

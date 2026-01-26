@@ -1,0 +1,105 @@
+/* src/components/BuyMeCoffee.css */
+
+.coffee-widget {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: rgba(11, 12, 16, 0.9);
+  border: 1px solid #66fcf1;
+  border-radius: 50px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  z-index: 9990; /* Modal'ın altında, her şeyin üstünde */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 0 15px rgba(102, 252, 241, 0.2);
+  overflow: hidden;
+  max-width: 60px; /* Başlangıçta sadece ikon görünsün (opsiyonel, aşağıda hover ile açıyoruz) */
+  white-space: nowrap;
+}
+
+/* Masaüstünde varsayılan olarak geniş olsun istersen max-width'i kaldırabilirsin. 
+   Şu anki ayar: Sadece ikon var, mouse gelince açılır. */
+.coffee-widget:hover {
+  max-width: 300px; /* Genişleyerek açılma */
+  background: rgba(11, 12, 16, 1);
+  box-shadow: 0 0 25px rgba(102, 252, 241, 0.5);
+  padding-right: 25px;
+  transform: translateY(-5px);
+}
+
+.coffee-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #66fcf1, #45a29e);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b0c10;
+  font-size: 1.2rem;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Kahve Dumanı Animasyonu */
+.steam-animation span {
+  position: absolute;
+  top: -10px;
+  width: 4px;
+  height: 10px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0;
+  animation: steam 2s infinite;
+}
+
+.steam-animation span:nth-child(1) { left: 10px; animation-delay: 0.2s; }
+.steam-animation span:nth-child(2) { left: 18px; animation-delay: 0.5s; }
+.steam-animation span:nth-child(3) { left: 26px; animation-delay: 0.8s; }
+
+@keyframes steam {
+  0% { transform: translateY(0) scale(1); opacity: 0.6; }
+  100% { transform: translateY(-15px) scale(1.5); opacity: 0; }
+}
+
+.coffee-text {
+  display: flex;
+  flex-direction: column;
+  color: #c5c6c7;
+  font-size: 0.8rem;
+  opacity: 0; /* Kapalıyken görünmesin */
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.coffee-widget:hover .coffee-text {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.coffee-text strong {
+  color: #66fcf1;
+  font-size: 0.95rem;
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 768px) {
+  .coffee-widget {
+    bottom: 20px;
+    right: 20px;
+    max-width: 60px; /* Mobilde hep küçük kalsın, tıklayınca gitsin */
+  }
+  
+  /* Mobilde yazı açılmasın, çok yer kaplar */
+  .coffee-widget:hover {
+    max-width: 60px;
+    transform: scale(1.1);
+  }
+  
+  .coffee-text {
+    display: none;
+  }
+}

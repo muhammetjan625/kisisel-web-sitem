@@ -1,26 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { db } from '../firebase'; // Firebase bağlantısı
-import { collection, query, orderBy, getDocs } from 'firebase/firestore';
+import { db } from '../firebase';
+import { collection, query, orderBy, getDocs, limit } from 'firebase/firestore';
 import './HomePage.css';
-// İkonlara Timeline için yenileri eklendi: FaGraduationCap, FaBriefcase, FaCodeBranch
-import { FaCode, FaLayerGroup, FaUserAstronaut, FaGithub, FaLinkedin, FaMicrochip, FaGraduationCap, FaBriefcase, FaCodeBranch } from 'react-icons/fa';
+// İkonlar
+import { FaCode, FaLayerGroup, FaUserAstronaut, FaGithub, FaLinkedin, FaMicrochip, FaGraduationCap, FaBriefcase, FaCodeBranch, FaArrowRight } from 'react-icons/fa';
 
 function HomePage() {
   const [skills, setSkills] = useState([]);
+  const [testimonials, setTestimonials] = useState([]);
+  const [services, setServices] = useState([]); // Yeni: Hizmetler State'i
 
-  // Yetenekleri Firebase'den Çek
   useEffect(() => {
-    const fetchSkills = async () => {
+    const fetchData = async () => {
       try {
-        const q = query(collection(db, "skills"), orderBy("percent", "desc"));
-        const snapshot = await getDocs(q);
-        setSkills(snapshot.docs.map(doc => doc.data()));
+        // 1. Yetenekleri Çek
+        const sQ = query(collection(db, "skills"), orderBy("percent", "desc"));
+        const sSnap = await getDocs(sQ);
+        setSkills(sSnap.docs.map(doc => doc.data()));
+
+        // 2. Referansları Çek
+        const tQ = query(collection(db, "testimonials"), orderBy("createdAt", "desc"), limit(6));
+        const tSnap = await getDocs(tQ);
+        setTestimonials(tSnap.docs.map(doc => ({...doc.data(), id: doc.id})));
+
+        // 3. Hizmetleri Çek (YENİ)
+        const svQ = query(collection(db, "services"), orderBy("createdAt", "desc"));
+        const svSnap = await getDocs(svQ);
+        setServices(svSnap.docs.map(doc => ({...doc.data(), id: doc.id})));
+
       } catch (error) {
-        console.error("Yetenekler çekilemedi:", error);
+        console.error("Veri çekme hatası:", error);
       }
     };
-    fetchSkills();
+    fetchData();
   }, []);
 
   return (
@@ -59,7 +72,7 @@ function HomePage() {
         </Link>
 
         {/* 3. Hakkımda Kutusu */}
-        <Link to="/hakkimda" className="bento-box box-medium about-box">
+        <Link to="/about" className="bento-box box-medium about-box">
           <div className="box-content">
             <div className="icon-bg"><FaUserAstronaut /></div>
             <h3>Hakkımda</h3>
@@ -68,27 +81,25 @@ function HomePage() {
         </Link>
 
         {/* 4. Yetenekler Kutusu */}
-        {/* 4. Yetenekler Kutusu */}
-<div className="bento-box box-wide skills-box">
-  <div className="box-content">
-    <div className="icon-bg"><FaMicrochip /></div>
-    <h3>Yeteneklerim</h3>
-    <div className="skills-ticker">
-      {skills.length > 0 ? (
-        skills.map((skill, index) => (
-          <div key={index} className="home-skill-tag">
-            <span className="skill-name">{skill.name}</span>
-            {/* YENİ EKLENEN KISIM: YÜZDE GÖSTERGESİ */}
-            <span className="skill-percent">%{skill.percent}</span>
-            <span className="skill-dot" style={{opacity: skill.percent / 100}}></span>
+        <div className="bento-box box-wide skills-box">
+          <div className="box-content">
+            <div className="icon-bg"><FaMicrochip /></div>
+            <h3>Yeteneklerim</h3>
+            <div className="skills-ticker">
+              {skills.length > 0 ? (
+                skills.map((skill, index) => (
+                  <div key={index} className="home-skill-tag">
+                    <span className="skill-name">{skill.name}</span>
+                    <span className="skill-percent">%{skill.percent}</span>
+                    <span className="skill-dot" style={{opacity: skill.percent / 100}}></span>
+                  </div>
+                ))
+              ) : (
+                <p style={{fontSize:'0.9rem', color:'#666'}}>Yetenek verisi yükleniyor...</p>
+              )}
+            </div>
           </div>
-        ))
-      ) : (
-        <p style={{fontSize:'0.9rem', color:'#666'}}>Yetenek verisi yükleniyor...</p>
-      )}
-    </div>
-  </div>
-</div>
+        </div>
 
         {/* 5. İletişim Kutusu */}
         <div className="bento-box box-full contact-box">
@@ -98,7 +109,7 @@ function HomePage() {
               <p>Bir proje fikrin varsa veya tanışmak istersen mesaj atabilirsin.</p>
             </div>
             <div className="action-part">
-               <Link to="/iletisim" className="contact-btn">Mesaj Gönder</Link>
+               <Link to="/contact" className="contact-btn">Mesaj Gönder</Link>
                <div className="social-links">
                   <a href="https://github.com/muhammetjan625" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
                   <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
@@ -109,7 +120,33 @@ function HomePage() {
 
       </div>
 
-      {/* --- YENİ BÖLÜM 1: ZAMAN ÇİZELGESİ (TIMELINE) --- */}
+      {/* --- YENİ BÖLÜM: HİZMETLER --- */}
+      {/* Eğer admin panelinden hizmet eklediysen burası görünür */}
+      {services.length > 0 && (
+          <>
+            <div className="section-title" style={{marginTop:'5rem', textAlign:'center'}}>
+                <h2>Hizmetlerim</h2>
+                <p>Size nasıl yardımcı olabilirim?</p>
+            </div>
+            <div className="services-grid" style={{
+                display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))', 
+                gap:'1.5rem', marginTop:'2rem', padding:'0 1rem'
+            }}>
+                {services.map(s => (
+                    <div key={s.id} className="glass-card" style={{
+                        padding:'2rem', borderRadius:'16px', borderTop:'4px solid #66fcf1', 
+                        textAlign:'center', background:'rgba(11, 12, 16, 0.6)'
+                    }}>
+                        <div style={{fontSize:'3rem', marginBottom:'1rem'}}>{s.icon}</div>
+                        <h3 style={{color:'#fff', marginBottom:'0.5rem'}}>{s.title}</h3>
+                        <p style={{color:'#8892b0', fontSize:'0.95rem'}}>{s.description}</p>
+                    </div>
+                ))}
+            </div>
+          </>
+      )}
+
+      {/* --- ZAMAN ÇİZELGESİ (TIMELINE) --- */}
       <div className="timeline-section">
         <h2 className="section-title">Yolculuğum</h2>
         
@@ -146,7 +183,7 @@ function HomePage() {
         </div>
       </div>
 
-      {/* --- YENİ BÖLÜM 2: KAYAN TEKNOLOJİLER (MARQUEE) --- */}
+      {/* --- KAYAN TEKNOLOJİLER (MARQUEE) --- */}
       <div className="tech-marquee">
         <div className="marquee-content">
           <span>REACT</span>
@@ -171,6 +208,23 @@ function HomePage() {
           <span>TAILWIND</span>
           <span>SUPABASE</span>
         </div>
+      </div>
+
+      {/* --- REFERANSLAR BÖLÜMÜ --- */}
+      <div className="section-title" style={{marginTop:'4rem', textAlign:'center'}}>
+        <h2>Referanslar</h2>
+      </div>
+      <div className="testimonials-grid" style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'1.5rem', marginTop:'2rem'}}>
+        {testimonials.map(t => (
+            <div key={t.id} className="glass-card" style={{padding:'1.5rem', borderRadius:'12px', background:'rgba(11,12,16,0.6)'}}>
+                <div style={{color:'#66fcf1', fontSize:'2rem'}}>“</div>
+                <p style={{fontStyle:'italic', color:'#c5c6c7', marginBottom:'1rem'}}>{t.comment}</p>
+                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                    <div><h4 style={{margin:0, color:'#fff'}}>{t.name}</h4><small style={{color:'#888'}}>{t.company}</small></div>
+                    <div style={{color:'#ffa502'}}>{"★".repeat(t.rating)}</div>
+                </div>
+            </div>
+        ))}
       </div>
 
     </div>

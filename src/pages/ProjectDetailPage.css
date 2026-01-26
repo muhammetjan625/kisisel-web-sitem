@@ -1,220 +1,322 @@
 /* src/pages/ProjectDetailPage.css */
 
-/* === GİRİŞ ANİMASYONU === */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.fade-in-bottom {
-  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-
-/* === GENEL KONTEYNER (Karanlık Tema) === */
+/* === GENEL KAPLAYICI === */
 .project-detail-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem 1rem;
+  padding-bottom: 6rem;
   font-family: 'Segoe UI', sans-serif;
-  color: #c5c6c7; /* Açık gri metin */
-  background-color: #0b0c10; /* Koyu zemin */
-  min-height: 100vh;
+  color: #c5c6c7;
 }
 
-/* Yüklenme ve Hata Durumları */
-.detail-loading,
-.detail-error {
-  text-align: center;
-  padding: 5rem 1rem;
-  font-size: 1.5rem;
-  color: #66fcf1; /* Neon Mavi */
-  background-color: #0b0c10;
-  min-height: 50vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.detail-error a {
-  font-size: 1rem;
-  color: #fff;
-  text-decoration: underline;
-  margin-top: 1rem;
-}
-
-/* === BAŞLIK ALANI === */
+/* === HEADER (BAŞLIK ALANI) === */
 .project-header {
   text-align: center;
-  padding: 2rem 1rem;
   margin-bottom: 3rem;
-  position: relative;
+  animation: fadeInDown 0.8s ease;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.back-text {
+  color: #8892b0;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.back-text:hover {
+  background: rgba(102, 252, 241, 0.1);
+  color: #66fcf1;
+  transform: translateX(-5px);
 }
 
 .project-header h1 {
-  font-size: 3rem;
-  font-weight: 800;
+  font-size: 3.5rem;
   color: #fff;
-  margin: 0 0 1rem 0;
-  text-shadow: 0 0 15px rgba(102, 252, 241, 0.4); /* Neon Parlama */
+  margin: 0.5rem 0;
+  font-weight: 800;
+  text-shadow: 0 0 25px rgba(102, 252, 241, 0.3);
+  letter-spacing: -1px;
 }
 
 .project-summary {
-  font-size: 1.25rem;
-  color: #8892b0;
+  font-size: 1.2rem;
+  color: #a0a0a0;
   max-width: 700px;
   margin: 0 auto 2rem auto;
   line-height: 1.6;
 }
 
-/* === LINK BUTONLARI (Neon Style) === */
+/* Link Butonları */
 .project-links {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
 .header-link-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
+  gap: 10px;
+  padding: 12px 28px;
   border-radius: 50px;
   text-decoration: none;
-  font-weight: 600;
-  font-size: 0.95rem;
-  border: 2px solid #66fcf1;
-  color: #66fcf1;
-  background: transparent;
-  transition: all 0.3s ease;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.header-link-btn:hover {
+.header-link-btn.live {
+  background: linear-gradient(135deg, #66fcf1, #45a29e);
+  color: #0b0c10;
+  box-shadow: 0 0 20px rgba(102, 252, 241, 0.4);
+}
+
+.header-link-btn.live:hover {
   transform: translateY(-3px);
-  background-color: #66fcf1;
-  color: #0b0c10; /* Hover'da yazı koyu olsun */
-  box-shadow: 0 0 20px rgba(102, 252, 241, 0.6);
+  box-shadow: 0 0 30px rgba(102, 252, 241, 0.7);
 }
 
 .header-link-btn.github {
-  border-color: #fff;
+  background: rgba(255, 255, 255, 0.05);
   color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .header-link-btn.github:hover {
-  background-color: #fff;
-  color: #000;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+  transform: translateY(-3px);
 }
 
-/* === ANA GÖRSEL === */
+/* === BÜYÜK GÖRSEL === */
 .project-main-image {
   width: 100%;
-  max-height: 550px;
+  border-radius: 24px;
   overflow: hidden;
-  border-radius: 16px;
-  margin-bottom: 4rem;
-  border: 1px solid #2c3e50;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); /* Derin gölge */
+  margin-bottom: 3rem;
+  border: 1px solid rgba(102, 252, 241, 0.2);
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
 .project-main-image img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
 }
 
-/* === İÇERİK DÜZENİ (Grid) === */
+.project-main-image:hover img {
+  transform: scale(1.02);
+}
+
+/* === İÇERİK DÜZENİ (GRID) === */
 .project-content-wrapper {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
+  grid-template-columns: 2fr 1fr; /* Sol geniş, Sağ dar */
+  gap: 2.5rem;
+  align-items: start;
 }
 
-/* Masaüstü: 2 Sütun */
-@media (min-width: 768px) {
-  .project-content-wrapper {
-    grid-template-columns: 3fr 1fr; /* İçerik geniş, sidebar dar */
-  }
+/* Ortak Glass Card Stili */
+.glass-card {
+  background: rgba(30, 35, 45, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
 }
 
-/* --- Sol Taraf: Açıklama --- */
-.project-main-content h2 {
-  font-size: 2rem;
-  font-weight: 700;
+.glass-card:hover {
+  border-color: rgba(102, 252, 241, 0.2);
+}
+
+/* Başlıklar */
+.content-box h2, .sidebar-box h3 {
   color: #fff;
+  margin-top: 0;
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid #1f2833;
-  padding-bottom: 0.5rem;
-  display: inline-block;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.content-box h2 svg, .sidebar-box h3 svg {
+  color: #66fcf1;
+}
+
+/* Metinler */
 .long-description p {
-  font-size: 1.1rem;
   line-height: 1.8;
-  color: #c5c6c7;
-  white-space: pre-wrap;
+  font-size: 1.05rem;
+  color: #d1d5db;
+  margin-bottom: 1.5rem;
 }
 
-/* --- Sağ Taraf: Sidebar (Teknolojiler) --- */
-.project-sidebar {
-  background-color: #1f2833; /* Koyu kutu */
+/* === VAKA ANALİZİ (CASE STUDY) === */
+.case-study {
+  margin-top: 2rem;
+  border-left: 4px solid #66fcf1;
+}
+
+.case-item {
+  background: rgba(0, 0, 0, 0.2);
   padding: 1.5rem;
   border-radius: 12px;
-  border: 1px solid #2c3e50;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  align-self: flex-start;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
 }
 
-.project-sidebar h3 {
+.case-item h4 {
+  margin: 0 0 10px 0;
+  color: #fff;
   font-size: 1.2rem;
-  font-weight: 700;
-  color: #66fcf1; /* Neon başlık */
-  margin: 0 0 1.5rem 0;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-.tech-tags {
+.case-item p {
+  margin: 0;
+  color: #bbb;
+  line-height: 1.6;
+}
+
+/* Problem - Kırmızı Ton */
+.case-item.problem {
+  border-left: 3px solid #ff4757;
+  background: linear-gradient(90deg, rgba(255, 71, 87, 0.1), transparent);
+}
+.case-item.problem h4 { color: #ff4757; }
+
+/* Çözüm - Yeşil Ton */
+.case-item.solution {
+  border-left: 3px solid #2ed573;
+  background: linear-gradient(90deg, rgba(46, 213, 115, 0.1), transparent);
+}
+.case-item.solution h4 { color: #2ed573; }
+
+/* === SIDEBAR (TEKNOLOJİLER) === */
+.sidebar-box {
+  position: sticky;
+  top: 100px; /* Aşağı kaydırınca sabit kalsın */
+}
+
+.tech-tags-cloud {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.8rem;
+  gap: 10px;
 }
 
-.tech-tag {
-  background-color: #0b0c10;
-  color: #45a29e;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
+.tech-tag-pill {
+  background: rgba(102, 252, 241, 0.08);
+  color: #66fcf1;
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 0.9rem;
   font-weight: 600;
-  border: 1px solid #45a29e;
   display: flex;
   align-items: center;
-  transition: all 0.2s ease;
+  gap: 8px;
+  border: 1px solid rgba(102, 252, 241, 0.2);
+  transition: all 0.3s ease;
+  cursor: default;
 }
 
-.tech-tag:hover {
-  background-color: #45a29e;
+.tech-tag-pill:hover {
+  background: #66fcf1;
   color: #0b0c10;
-  box-shadow: 0 0 10px rgba(69, 162, 158, 0.4);
+  box-shadow: 0 0 15px rgba(102, 252, 241, 0.4);
+  transform: translateY(-2px);
 }
 
-/* === GERİ DÖN LİNKİ === */
-.back-link {
-  display: inline-block;
-  color: #8892b0;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: color 0.2s;
-  border-bottom: 1px solid transparent;
-  padding-bottom: 2px;
+/* === YÜKLEME & HATA EKRANLARI === */
+.detail-loading, .detail-error {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
 }
 
-.back-link:hover {
-  color: #66fcf1;
-  border-bottom-color: #66fcf1;
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(102, 252, 241, 0.3);
+  border-top: 4px solid #66fcf1;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-bottom {
+  animation: fadeInBottom 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes fadeInBottom {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === MOBİL DUYARLILIK === */
+@media (max-width: 900px) {
+  .project-content-wrapper {
+    grid-template-columns: 1fr; /* Tek sütuna düşür */
+  }
+
+  .project-header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .project-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .header-link-btn {
+    width: 100%;
+    justify-content: center;
+    max-width: 300px;
+  }
+
+  .sidebar-box {
+    position: static; /* Mobilde yapışkan olmasın */
+    margin-top: 2rem;
+  }
 }

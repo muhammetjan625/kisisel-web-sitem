@@ -6,34 +6,25 @@ import { collection, addDoc, getDocs, query, orderBy, doc, updateDoc, deleteDoc,
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { CSVLink } from 'react-csv';
-import { RiDeleteBin6Line, RiDashboardLine, RiFileCodeLine, RiMessage2Line, RiUserStarLine, RiArticleLine, RiCpuLine, RiSettings3Line } from 'react-icons/ri';
+// İkonlara RiMenuLine ve RiCloseLine eklendi
+import { RiDeleteBin6Line, RiDashboardLine, RiFileCodeLine, RiMessage2Line, RiUserStarLine, RiArticleLine, RiCpuLine, RiSettings3Line, RiChatQuoteLine, RiBriefcaseLine, RiMenuLine, RiCloseLine } from 'react-icons/ri';
 import './AdminPage.css';
 
 // --- YARDIMCI FONKSİYON: SİLME ONAYI İÇİN ÖZEL TOAST ---
-// Bu fonksiyonu tüm silme işlemlerinde kullanacağız.
 const confirmDeleteToast = (onConfirm) => {
     toast((t) => (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', minWidth: '250px' }}>
             <span style={{ fontWeight: 600 }}>Silmek istediğine emin misin?</span>
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
                 <button
-                    onClick={() => {
-                        toast.dismiss(t.id);
-                        onConfirm(); // Onaylanırsa silme fonksiyonunu çalıştır
-                    }}
-                    style={{
-                        background: '#ff4757', border: 'none', color: '#fff', 
-                        padding: '6px 12px', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold'
-                    }}
+                    onClick={() => { toast.dismiss(t.id); onConfirm(); }}
+                    style={{ background: '#ff4757', border: 'none', color: '#fff', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}
                 >
                     Evet, Sil
                 </button>
                 <button
                     onClick={() => toast.dismiss(t.id)}
-                    style={{
-                        background: 'transparent', border: '1px solid #888', color: '#ccc', 
-                        padding: '6px 12px', borderRadius: '6px', cursor: 'pointer'
-                    }}
+                    style={{ background: 'transparent', border: '1px solid #888', color: '#ccc', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer' }}
                 >
                     Vazgeç
                 </button>
@@ -50,17 +41,24 @@ const initialProjectFormState = {
 
 // ================== 1. DASHBOARD ==================
 const Dashboard = ({ setActiveTab }) => {
-    const [stats, setStats] = useState({ projects: 0, messages: 0, blogs: 0, skills: 0 });
+    const [stats, setStats] = useState({ projects: 0, messages: 0, blogs: 0, skills: 0, testimonials: 0, services: 0 });
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const projSnap = await getDocs(collection(db, "projects"));
-                const msgSnap = await getDocs(collection(db, "messages"));
-                const blogSnap = await getDocs(collection(db, "posts"));
-                const skillSnap = await getDocs(collection(db, "skills"));
-                setStats({ projects: projSnap.size, messages: msgSnap.size, blogs: blogSnap.size, skills: skillSnap.size });
+                const [projSnap, msgSnap, blogSnap, skillSnap, testiSnap, servSnap] = await Promise.all([
+                    getDocs(collection(db, "projects")),
+                    getDocs(collection(db, "messages")),
+                    getDocs(collection(db, "posts")),
+                    getDocs(collection(db, "skills")),
+                    getDocs(collection(db, "testimonials")),
+                    getDocs(collection(db, "services"))
+                ]);
+                setStats({ 
+                    projects: projSnap.size, messages: msgSnap.size, blogs: blogSnap.size, 
+                    skills: skillSnap.size, testimonials: testiSnap.size, services: servSnap.size 
+                });
             } catch (error) { console.error(error); } finally { setLoading(false); }
         };
         fetchStats();
@@ -81,6 +79,11 @@ const Dashboard = ({ setActiveTab }) => {
                     <p style={{ margin: 0, color: '#888' }}>Proje</p>
                     <button className="action-btn" style={{marginTop:'10px', width:'100%'}} onClick={() => setActiveTab('projects')}>Git</button>
                 </div>
+                <div className="glass-card" style={{ padding: '2rem', borderLeft: '5px solid #00d2d3', textAlign:'center' }}>
+                    <h3 style={{ fontSize: '2.5rem', margin: 0, color: '#fff', border:'none', padding:0 }}>{stats.services}</h3>
+                    <p style={{ margin: 0, color: '#888' }}>Hizmet</p>
+                    <button className="action-btn" style={{marginTop:'10px', width:'100%'}} onClick={() => setActiveTab('services')}>Git</button>
+                </div>
                 <div className="glass-card" style={{ padding: '2rem', borderLeft: '5px solid #ffa502', textAlign:'center' }}>
                     <h3 style={{ fontSize: '2.5rem', margin: 0, color: '#fff', border:'none', padding:0 }}>{stats.blogs}</h3>
                     <p style={{ margin: 0, color: '#888' }}>Blog</p>
@@ -90,6 +93,11 @@ const Dashboard = ({ setActiveTab }) => {
                     <h3 style={{ fontSize: '2.5rem', margin: 0, color: '#fff', border:'none', padding:0 }}>{stats.skills}</h3>
                     <p style={{ margin: 0, color: '#888' }}>Yetenek</p>
                     <button className="action-btn" style={{marginTop:'10px', width:'100%'}} onClick={() => setActiveTab('skills')}>Git</button>
+                </div>
+                <div className="glass-card" style={{ padding: '2rem', borderLeft: '5px solid #9c88ff', textAlign:'center' }}>
+                    <h3 style={{ fontSize: '2.5rem', margin: 0, color: '#fff', border:'none', padding:0 }}>{stats.testimonials}</h3>
+                    <p style={{ margin: 0, color: '#888' }}>Referans</p>
+                    <button className="action-btn" style={{marginTop:'10px', width:'100%'}} onClick={() => setActiveTab('testimonials')}>Git</button>
                 </div>
             </div>
         </div>
@@ -125,7 +133,6 @@ const ProjectsManager = () => {
     };
     const cancelEdit = () => { setIsEditing(null); setFormData(initialProjectFormState); setImageUpload(null); };
     
-    // YENİ: TOAST İLE SİLME İŞLEMİ
     const handleDelete = (firestoreId) => {
         confirmDeleteToast(async () => {
             const toastId = toast.loading("Siliniyor...");
@@ -197,7 +204,56 @@ const ProjectsManager = () => {
     );
 }
 
-// ================== 3. YETENEKLER YÖNETİCİSİ ==================
+// ================== 3. HİZMETLER YÖNETİCİSİ ==================
+const ServicesManager = () => {
+    const [services, setServices] = useState([]);
+    const [formData, setFormData] = useState({ title: '', description: '', icon: '⚡' });
+    const [loading, setLoading] = useState(false);
+    
+    const fetchServices = async () => { 
+        const q = query(collection(db, "services"), orderBy("createdAt", "desc")); 
+        const s = await getDocs(q); 
+        setServices(s.docs.map(d => ({...d.data(), id:d.id}))); 
+    };
+    useEffect(() => { fetchServices(); }, []);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault(); setLoading(true);
+        try { await addDoc(collection(db, "services"), { ...formData, createdAt: serverTimestamp() }); toast.success("Hizmet eklendi!"); setFormData({title:'', description:'', icon:'⚡'}); fetchServices(); } catch { toast.error("Hata!"); } finally { setLoading(false); }
+    };
+    const handleDelete = (id) => confirmDeleteToast(async () => { await deleteDoc(doc(db, "services", id)); toast.success("Silindi"); fetchServices(); });
+
+    return (
+        <div className="glass-card fade-in-bottom">
+            <h3>Hizmetler</h3>
+            <div style={{display:'grid', gap:'2rem', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))'}}>
+                <div className="admin-form-container">
+                    <form onSubmit={handleSubmit} className="admin-form-grid" style={{gridTemplateColumns:'1fr'}}>
+                        <div className="form-group"><label>Hizmet Başlığı</label><input value={formData.title} onChange={e=>setFormData({...formData, title:e.target.value})} placeholder="Örn: Web Tasarım" required/></div>
+                        <div className="form-group"><label>Emoji / İkon</label><input value={formData.icon} onChange={e=>setFormData({...formData, icon:e.target.value})} placeholder="Örn: 💻 veya 🚀" required/></div>
+                        <div className="form-group"><label>Açıklama</label><textarea value={formData.description} onChange={e=>setFormData({...formData, description:e.target.value})} rows="3" required/></div>
+                        <button type="submit" className="submit-btn" disabled={loading}>Ekle</button>
+                    </form>
+                </div>
+                <div style={{maxHeight:'450px', overflowY:'auto', paddingRight:'5px'}}>
+                    {services.length === 0 && <p style={{color:'#666'}}>Henüz hizmet eklenmedi.</p>}
+                    {services.map(s => (
+                        <div key={s.id} className="service-admin-card">
+                            <div className="service-icon-wrapper">{s.icon}</div>
+                            <div className="service-details">
+                                <strong>{s.title}</strong>
+                                <p>{s.description}</p>
+                            </div>
+                            <button onClick={()=>handleDelete(s.id)} className="delete-message-btn" style={{marginLeft:'10px'}}><RiDeleteBin6Line/></button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// ================== 4. YETENEKLER YÖNETİCİSİ ==================
 const SkillsManager = () => {
     const [skills, setSkills] = useState([]);
     const [formData, setFormData] = useState({ name: '', percent: 50 });
@@ -224,7 +280,6 @@ const SkillsManager = () => {
         } catch (error) { toast.error("Hata oluştu."); } finally { setLoading(false); }
     };
 
-    // YENİ: TOAST İLE SİLME
     const handleDelete = (id) => {
         confirmDeleteToast(async () => {
             try { await deleteDoc(doc(db, "skills", id)); toast.success("Yetenek silindi."); fetchSkills(); } 
@@ -260,7 +315,7 @@ const SkillsManager = () => {
     );
 };
 
-// ================== 4. MESAJLAR ==================
+// ================== 5. MESAJLAR ==================
 const MessagesViewer = () => {
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -271,7 +326,6 @@ const MessagesViewer = () => {
     };
     useEffect(() => { fetchMessages(); }, []);
     
-    // YENİ: TOAST İLE SİLME
     const handleDeleteMessage = (id) => { 
         confirmDeleteToast(async () => {
             await deleteDoc(doc(db, 'messages', id)); toast.success('Mesaj silindi!'); fetchMessages(); 
@@ -288,7 +342,7 @@ const MessagesViewer = () => {
     );
 };
 
-// ================== 5. BLOG YÖNETİMİ ==================
+// ================== 6. BLOG YÖNETİMİ ==================
 const BlogManager = () => {
     const [posts, setPosts] = useState([]);
     const [formData, setFormData] = useState({ title: '', slug: '', excerpt: '', content: '', imageUrl: '', published: true });
@@ -311,7 +365,6 @@ const BlogManager = () => {
         try { if (isEditing) await updateDoc(doc(db, 'posts', isEditing), { ...postData, updatedAt: serverTimestamp() }); else await addDoc(collection(db, 'posts'), { ...postData, createdAt: serverTimestamp() }); toast.success("İşlem tamam!"); fetchPosts(); setIsEditing(null); setFormData({ title: '', slug: '', excerpt: '', content: '', imageUrl: '', published: true }); } catch { toast.error("Hata!"); } finally { setIsSubmitting(false); }
     };
     
-    // YENİ: TOAST İLE SİLME
     const handleDelete = (id) => { 
         confirmDeleteToast(async () => {
             await deleteDoc(doc(db, 'posts', id)); toast.success("Yazı silindi."); fetchPosts(); 
@@ -323,7 +376,80 @@ const BlogManager = () => {
     );
 };
 
-// ================== 6. HAKKIMDA ==================
+// ================== 7. REFERANSLAR ==================
+const TestimonialsManager = () => {
+    const [testimonials, setTestimonials] = useState([]);
+    const [formData, setFormData] = useState({ name: '', company: '', comment: '', rating: 5 });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const fetchTestimonials = async () => {
+        try {
+            const q = query(collection(db, "testimonials"), orderBy("createdAt", "desc"));
+            const querySnapshot = await getDocs(q);
+            setTestimonials(querySnapshot.docs.map(doc => ({ ...doc.data(), firestoreId: doc.id })));
+        } catch (e) { console.error(e); }
+    };
+    useEffect(() => { fetchTestimonials(); }, []);
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!formData.name || !formData.comment) return toast.error("İsim ve yorum zorunlu.");
+        setIsSubmitting(true);
+        const toastId = toast.loading("Kaydediliyor...");
+        try {
+            await addDoc(collection(db, 'testimonials'), { ...formData, rating: Number(formData.rating), createdAt: serverTimestamp() });
+            toast.success('Referans eklendi!', { id: toastId });
+            fetchTestimonials();
+            setFormData({ name: '', company: '', comment: '', rating: 5 });
+        } catch { toast.error("Hata oluştu.", { id: toastId }); } finally { setIsSubmitting(false); }
+    };
+    
+    const handleDelete = (firestoreId) => {
+        confirmDeleteToast(async () => {
+            const toastId = toast.loading("Siliniyor...");
+            try { 
+                await deleteDoc(doc(db, 'testimonials', firestoreId)); 
+                toast.success('Referans silindi!', { id: toastId }); 
+                fetchTestimonials(); 
+            } catch { 
+                toast.error("Silinirken hata oluştu.", { id: toastId }); 
+            }
+        });
+    };
+    
+    return (
+        <>
+            <div className="glass-card fade-in-bottom">
+                <h3>Yeni Referans Ekle</h3>
+                <div className="admin-form-container">
+                    <form onSubmit={handleSubmit} className="admin-form-grid">
+                        <div className="form-group"><label>İsim</label><input name="name" value={formData.name} onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))} required /></div>
+                        <div className="form-group"><label>Şirket</label><input name="company" value={formData.company} onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))} /></div>
+                        <div className="form-group form-group-full"><label>Yorum</label><textarea name="comment" value={formData.comment} onChange={(e) => setFormData(prev => ({ ...prev, comment: e.target.value }))} rows="3" required></textarea></div>
+                        <div className="form-group"><label>Puan (1-5)</label><input type="number" min="1" max="5" name="rating" value={formData.rating} onChange={(e) => setFormData(prev => ({ ...prev, rating: e.target.value }))} /></div>
+                        <button type="submit" className="submit-btn" disabled={isSubmitting}>{isSubmitting ? '...' : 'Ekle'}</button>
+                    </form>
+                </div>
+            </div>
+            <div className="glass-card fade-in-bottom" style={{ marginTop: '2rem' }}>
+                <h3>Mevcut Referanslar</h3>
+                <div className="messages-list">
+                    {testimonials.length === 0 ? <p>Henüz referans yok.</p> : testimonials.map(testi => (
+                        <div key={testi.firestoreId} className="message-card">
+                            <div className="message-header">
+                                <div className="message-sender"><strong>{testi.name}</strong> {testi.company && <small>({testi.company})</small>} - {testi.rating}⭐</div>
+                                <button className="delete-message-btn" onClick={() => handleDelete(testi.firestoreId)}><RiDeleteBin6Line/></button>
+                            </div>
+                            <p className="message-body">{testi.comment}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </>
+    );
+};
+
+// ================== 8. HAKKIMDA ==================
 const AboutMeEditor = () => {
     const [formData, setFormData] = useState({ bio: '', profileImageUrl: '', cvUrl: '' });
     const [imageUpload, setImageUpload] = useState(null);
@@ -374,7 +500,7 @@ const AboutMeEditor = () => {
     );
 };
 
-// ================== 7. AYARLAR ==================
+// ================== 9. AYARLAR ==================
 const SettingsManager = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -398,40 +524,71 @@ const SettingsManager = () => {
     );
 };
 
-// ================== ANA ADMIN SAYFASI ==================
+// ================== ANA ADMIN SAYFASI (MENÜ GÜNCELLENDİ) ==================
 function AdminPage() {
     const [activeTab, setActiveTab] = useState('dashboard');
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // YENİ STATE
     const navigate = useNavigate();
+    
     const handleLogout = async () => { await signOut(auth); navigate('/login'); };
+
+    // Menü öğesine tıklayınca mobilde menüyü kapat
+    const handleTabClick = (tabName) => {
+        setActiveTab(tabName);
+        setIsMenuOpen(false);
+    }
 
     return (
         <div className="admin-page-wrapper">
             <Toaster position="top-right" />
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
-                <h2>Admin Paneli</h2>
-                <div>
-                    <Link to="/" className="submit-btn" style={{ backgroundColor: '#2980b9', marginRight: '1rem', border:'1px solid #2980b9' }}>Siteye Dön</Link>
-                    <button onClick={handleLogout} className="submit-btn" style={{ backgroundColor: '#c0392b', border:'1px solid #c0392b', color:'#fff' }}>Çıkış</button>
+            
+            {/* HEADERS & HAMBURGER BUTONU */}
+            <div className="admin-header">
+                <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%'}}>
+                    <h2>Admin Paneli</h2>
+                    
+                    {/* MOBİL İÇİN HAMBURGER BUTONU */}
+                    <button className="mobile-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                        {isMenuOpen ? <RiCloseLine size={24} /> : <RiMenuLine size={24} />}
+                    </button>
+
+                     {/* DESKTOP BUTONLARI (Mobilde gizli) */}
+                    <div className="header-actions">
+                        <Link to="/" className="submit-btn header-btn" style={{ backgroundColor: '#2980b9', border:'1px solid #2980b9' }}>Siteye Dön</Link>
+                        <button onClick={handleLogout} className="submit-btn header-btn" style={{ backgroundColor: '#c0392b', border:'1px solid #c0392b', color:'#fff' }}>Çıkış</button>
+                    </div>
                 </div>
             </div>
 
-            <div className="admin-tabs">
-                <button className={`tab-btn ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')}><RiDashboardLine style={{marginBottom:-2, marginRight:5}}/> Genel</button>
-                <button className={`tab-btn ${activeTab === 'projects' ? 'active' : ''}`} onClick={() => setActiveTab('projects')}><RiFileCodeLine style={{marginBottom:-2, marginRight:5}}/> Projeler</button>
-                <button className={`tab-btn ${activeTab === 'skills' ? 'active' : ''}`} onClick={() => setActiveTab('skills')}><RiCpuLine style={{marginBottom:-2, marginRight:5}}/> Yetenekler</button>
-                <button className={`tab-btn ${activeTab === 'messages' ? 'active' : ''}`} onClick={() => setActiveTab('messages')}><RiMessage2Line style={{marginBottom:-2, marginRight:5}}/> Mesajlar</button>
-                <button className={`tab-btn ${activeTab === 'blog' ? 'active' : ''}`} onClick={() => setActiveTab('blog')}><RiArticleLine style={{marginBottom:-2, marginRight:5}}/> Blog</button>
-                <button className={`tab-btn ${activeTab === 'about' ? 'active' : ''}`} onClick={() => setActiveTab('about')}><RiUserStarLine style={{marginBottom:-2, marginRight:5}}/> Hakkımda</button>
-                <button className={`tab-btn ${activeTab === 'settings' ? 'active' : ''}`} onClick={() => setActiveTab('settings')}><RiSettings3Line style={{marginBottom:-2, marginRight:5}}/> Ayarlar</button>
+            {/* SEKME MENÜSÜ (Navigasyon) */}
+            <div className={`admin-tabs ${isMenuOpen ? 'show' : ''}`}>
+                <button className={`tab-btn ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => handleTabClick('dashboard')}><RiDashboardLine style={{marginBottom:-2, marginRight:5}}/> Genel</button>
+                <button className={`tab-btn ${activeTab === 'projects' ? 'active' : ''}`} onClick={() => handleTabClick('projects')}><RiFileCodeLine style={{marginBottom:-2, marginRight:5}}/> Projeler</button>
+                <button className={`tab-btn ${activeTab === 'services' ? 'active' : ''}`} onClick={() => handleTabClick('services')}><RiBriefcaseLine style={{marginBottom:-2, marginRight:5}}/> Hizmetler</button>
+                <button className={`tab-btn ${activeTab === 'skills' ? 'active' : ''}`} onClick={() => handleTabClick('skills')}><RiCpuLine style={{marginBottom:-2, marginRight:5}}/> Yetenekler</button>
+                <button className={`tab-btn ${activeTab === 'messages' ? 'active' : ''}`} onClick={() => handleTabClick('messages')}><RiMessage2Line style={{marginBottom:-2, marginRight:5}}/> Mesajlar</button>
+                <button className={`tab-btn ${activeTab === 'blog' ? 'active' : ''}`} onClick={() => handleTabClick('blog')}><RiArticleLine style={{marginBottom:-2, marginRight:5}}/> Blog</button>
+                <button className={`tab-btn ${activeTab === 'about' ? 'active' : ''}`} onClick={() => handleTabClick('about')}><RiUserStarLine style={{marginBottom:-2, marginRight:5}}/> Hakkımda</button>
+                <button className={`tab-btn ${activeTab === 'testimonials' ? 'active' : ''}`} onClick={() => handleTabClick('testimonials')}><RiChatQuoteLine style={{marginBottom:-2, marginRight:5}}/> Referanslar</button>
+                <button className={`tab-btn ${activeTab === 'settings' ? 'active' : ''}`} onClick={() => handleTabClick('settings')}><RiSettings3Line style={{marginBottom:-2, marginRight:5}}/> Ayarlar</button>
+                
+                {/* MOBİL İÇİN ÇIKIŞ BUTONLARI (Menünün en altına ekledim) */}
+                <div className="mobile-only-actions">
+                    <Link to="/" className="tab-btn" style={{color:'#2980b9'}}>Siteye Dön</Link>
+                    <button onClick={handleLogout} className="tab-btn" style={{color:'#c0392b'}}>Çıkış Yap</button>
+                </div>
             </div>
 
-            <div>
+            {/* İÇERİK ALANI */}
+            <div className="admin-content">
                 {activeTab === 'dashboard' && <Dashboard setActiveTab={setActiveTab} />}
                 {activeTab === 'projects' && <ProjectsManager />}
+                {activeTab === 'services' && <ServicesManager />}
                 {activeTab === 'skills' && <SkillsManager />}
                 {activeTab === 'messages' && <MessagesViewer />}
                 {activeTab === 'about' && <AboutMeEditor />}
                 {activeTab === 'blog' && <BlogManager />}
+                {activeTab === 'testimonials' && <TestimonialsManager />}
                 {activeTab === 'settings' && <SettingsManager />}
             </div>
         </div>

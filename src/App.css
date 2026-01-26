@@ -49,3 +49,23 @@ h1, h2, h3 {
 .projects-grid .glass-card a:hover {
     background-color: rgba(255, 255, 255, 0.15); /* Butonun hover efektini ayarladık */
 }
+
+/* src/App.css içine en alta ekle */
+
+/* Sayfa genelinde mouse'u takip eden ışık */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Tıklamayı engellemesin */
+  background: radial-gradient(
+    600px circle at var(--x, 50%) var(--y, 50%), 
+    rgba(102, 252, 241, 0.06), 
+    transparent 40%
+  );
+  z-index: 9999; /* En üstte ama tıklanmaz */
+  transition: opacity 0.3s;
+}
