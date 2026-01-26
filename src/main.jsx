@@ -2,17 +2,18 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import { HashRouter } from 'react-router-dom'
-// 1. AuthProvider'ı import et
-import { AuthProvider } from './context/AuthContext'; 
+import { BrowserRouter } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async';
+import { AuthProvider } from './context/AuthContext'; // 1. BU SATIRI IMPORT ET
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <HashRouter>
-      {/* 2. Uygulamayı AuthProvider ile sarmala */}
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </HashRouter>
+    <HelmetProvider>
+      <AuthProvider> {/* 2. BURAYA EKLE (App'i sarmalamalı) */}
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AuthProvider> {/* 3. BURADA KAPAT */}
+    </HelmetProvider>
   </React.StrictMode>,
 )
