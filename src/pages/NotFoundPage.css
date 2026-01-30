@@ -1,35 +1,33 @@
 /* src/pages/NotFoundPage.css */
 
-.not-found-wrapper {
-  min-height: 70vh;
+.not-found-container {
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #c5c6c7;
-  padding: 2rem;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
 }
 
-/* --- 404 Glitch Efekti --- */
-.glitch-container {
+/* Glitch Efekti (404 Yazısı) */
+.glitch-wrapper {
   position: relative;
   margin-bottom: 2rem;
 }
 
-.glitch-404 {
+.glitch {
   font-size: 8rem;
   font-weight: 900;
   color: #fff;
-  letter-spacing: 5px;
-  margin: 0;
   position: relative;
-  text-shadow: 2px 2px 0px #ff4757, -2px -2px 0px #66fcf1;
-  animation: glitch-skew 1s infinite linear alternate-reverse;
+  letter-spacing: 5px;
 }
 
-.glitch-404::before,
-.glitch-404::after {
+.glitch::before,
+.glitch::after {
   content: attr(data-text);
   position: absolute;
   top: 0;
@@ -38,55 +36,52 @@
   height: 100%;
 }
 
-.glitch-404::before {
+/* Kırmızı Gölge (Sola Kayık) */
+.glitch::before {
   left: 2px;
-  text-shadow: -2px 0 #ff00c1;
-  clip: rect(44px, 450px, 56px, 0);
-  animation: glitch-anim 5s infinite linear alternate-reverse;
+  text-shadow: -2px 0 #ff4757;
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim-2 3s infinite linear alternate-reverse;
 }
 
-.glitch-404::after {
+/* Mavi Gölge (Sağa Kayık) */
+.glitch::after {
   left: -2px;
-  text-shadow: -2px 0 #00fff9;
-  clip: rect(44px, 450px, 56px, 0);
-  animation: glitch-anim2 5s infinite linear alternate-reverse;
+  text-shadow: -2px 0 #66fcf1;
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim 2.5s infinite linear alternate-reverse;
 }
 
-/* Animasyon Keyframe'leri */
 @keyframes glitch-anim {
-  0% { clip: rect(14px, 9999px, 127px, 0); transform: skew(0.7deg); }
-  5% { clip: rect(69px, 9999px, 5px, 0); transform: skew(0.1deg); }
-  10% { clip: rect(5px, 9999px, 137px, 0); transform: skew(0.1deg); }
-  /* ... daha fazla varyasyon eklenebilir ... */
-  100% { clip: rect(82px, 9999px, 142px, 0); transform: skew(0.3deg); }
+  0% { clip: rect(12px, 9999px, 56px, 0); }
+  20% { clip: rect(89px, 9999px, 12px, 0); }
+  40% { clip: rect(32px, 9999px, 86px, 0); }
+  60% { clip: rect(66px, 9999px, 19px, 0); }
+  80% { clip: rect(98px, 9999px, 4px, 0); }
+  100% { clip: rect(5px, 9999px, 66px, 0); }
 }
 
-@keyframes glitch-anim2 {
-  0% { clip: rect(129px, 9999px, 36px, 0); transform: skew(0.6deg); }
-  5% { clip: rect(138px, 9999px, 114px, 0); transform: skew(0.3deg); }
-  10% { clip: rect(49px, 9999px, 3px, 0); transform: skew(0.5deg); }
-  /* ... */
-  100% { clip: rect(117px, 9999px, 7px, 0); transform: skew(0.5deg); }
+@keyframes glitch-anim-2 {
+  0% { clip: rect(65px, 9999px, 100px, 0); }
+  20% { clip: rect(22px, 9999px, 5px, 0); }
+  40% { clip: rect(78px, 9999px, 44px, 0); }
+  60% { clip: rect(12px, 9999px, 33px, 0); }
+  80% { clip: rect(54px, 9999px, 90px, 0); }
+  100% { clip: rect(2px, 9999px, 20px, 0); }
 }
 
-/* --- İçerik Alanı --- */
-.warning-icon {
-  font-size: 3rem;
+/* İçerik Kısmı */
+.error-content h2 {
+  font-family: 'Courier New', Courier, monospace;
   color: #ff4757;
-  margin-bottom: 1rem;
-  animation: float 3s ease-in-out infinite;
-}
-
-.not-found-content h2 {
-  font-size: 2rem;
-  color: #fff;
+  letter-spacing: 2px;
   margin-bottom: 1rem;
 }
 
-.not-found-content p {
+.error-content p {
   color: #8892b0;
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
+  max-width: 500px;
+  margin: 0 auto 2rem auto;
   line-height: 1.6;
 }
 
@@ -94,33 +89,20 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  padding: 12px 30px;
   background: transparent;
   border: 1px solid #66fcf1;
   color: #66fcf1;
-  padding: 12px 30px;
-  border-radius: 50px;
   font-weight: bold;
   text-decoration: none;
-  transition: all 0.3s ease;
+  border-radius: 4px;
+  transition: 0.3s;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .home-btn:hover {
-  background: #66fcf1;
-  color: #0b0c10;
-  box-shadow: 0 0 20px rgba(102, 252, 241, 0.5);
-  transform: translateY(-3px);
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
-/* Mobil Uyum */
-@media (max-width: 768px) {
-  .glitch-404 { font-size: 5rem; }
-  .not-found-content h2 { font-size: 1.5rem; }
+  background: rgba(102, 252, 241, 0.1);
+  box-shadow: 0 0 20px rgba(102, 252, 241, 0.4);
+  transform: translateY(-2px);
 }

@@ -1,25 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaHome, FaExclamationTriangle } from 'react-icons/fa';
+import { FaHome } from 'react-icons/fa';
 import './NotFoundPage.css';
 
 const NotFoundPage = () => {
   return (
-    <div className="not-found-wrapper fade-in-bottom">
-      <div className="glitch-container">
-        <h1 className="glitch-404" data-text="404">404</h1>
+    <div className="not-found-container">
+      <SEO title="404 - Sayfa Bulunamadı" description="Aradığınız sayfa siber uzayda kayboldu." />
+      
+      <div className="glitch-wrapper">
+        <h1 className="glitch" data-text="404">404</h1>
       </div>
       
-      <div className="not-found-content">
-        <FaExclamationTriangle className="warning-icon" />
-        <h2>Hata: Sayfa Bulunamadı</h2>
-        <p>
-          Aradığın sayfa siber uzayda kaybolmuş gibi görünüyor.<br />
-          Ya link yanlış ya da bu sayfa artık yok.
-        </p>
+      <div className="error-content">
+        <h2>SİSTEM HATASI: SAYFA BULUNAMADI</h2>
+        <p>Aradığınız veri bloğu siber uzayda kaybolmuş veya silinmiş görünüyor. Bağlantı koptu.</p>
         
         <Link to="/" className="home-btn">
-          <FaHome /> Ana Sayfaya Işınlan
+          <FaHome /> GÜVENLİ BÖLGEYE DÖN
         </Link>
       </div>
     </div>
