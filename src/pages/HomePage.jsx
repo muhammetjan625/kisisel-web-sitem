@@ -72,7 +72,7 @@ function HomePage() {
         </Link>
 
         {/* 3. Hakkımda Kutusu */}
-        <Link to="/about" className="bento-box box-medium about-box">
+        <Link to="/hakkimda" className="bento-box box-medium about-box">
           <div className="box-content">
             <div className="icon-bg"><FaUserAstronaut /></div>
             <h3>Hakkımda</h3>
@@ -109,7 +109,7 @@ function HomePage() {
               <p>Bir proje fikrin varsa veya tanışmak istersen mesaj atabilirsin.</p>
             </div>
             <div className="action-part">
-               <Link to="/contact" className="contact-btn">Mesaj Gönder</Link>
+               <Link to="/iletisim" className="contact-btn">Mesaj Gönder</Link>
                <div className="social-links">
                   <a href="https://github.com/muhammetjan625" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
                   <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
