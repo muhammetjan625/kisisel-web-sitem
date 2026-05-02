@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "admin-platforum"
+  },
+  "targets": {
+    "admin-platforum": {
+      "hosting": {
+        "kisisel-site": [
+          "muhammetjanmustakov"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

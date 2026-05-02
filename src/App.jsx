@@ -4,7 +4,6 @@ import { Toaster } from 'react-hot-toast';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import ProtectedRoute from './components/ProtectedRoute';
 import Loading from './components/Loading';
 import ScrollToTop from './components/ScrollToTop';
 import BuyMeCoffee from './components/BuyMeCoffee'; 
@@ -18,20 +17,16 @@ import ContactPage from './pages/ContactPage';
 import ProjectsPage from './pages/ProjectsPage';
 import BlogPage from './pages/BlogPage';
 import PostDetailPage from './pages/PostDetailPage';
-import LoginPage from './pages/LoginPage';
-import AdminPage from './pages/AdminPage';
 import NotFoundPage from './pages/NotFoundPage'; 
 import ProjectDetailPage from './pages/ProjectDetailPage'; // Proje detay sayfası importu
 
 import './App.css';
 
 function App() {
+  // eslint-disable-next-line no-unused-vars
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   
-  // Admin ve Login sayfalarında widget'ı, nav'ı ve footer'ı gizle
-  const isAdminRoute = ['/admin', '/login'].includes(location.pathname);
-
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
@@ -68,11 +63,11 @@ function App() {
       
       <ScrollToTop />
       
-      {!isAdminRoute && <Navbar />}
+      <Navbar />
       
-      {/* Widgetlar (Admin panelinde gizli) */}
-      {!isAdminRoute && <BuyMeCoffee />}
-      {!isAdminRoute && <ChatBot />}
+      {/* Widgetlar */}
+      <BuyMeCoffee />
+      <ChatBot />
 
       <main>
         <div className="container" style={{ minHeight: '80vh' }}>
@@ -88,16 +83,13 @@ function App() {
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<PostDetailPage />} />
               
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
-              
               {/* Hatalı linkler için 404 */}
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </div>
       </main>
 
-      {!isAdminRoute && <Footer />}
+      <Footer />
     </div>
   );
 }
